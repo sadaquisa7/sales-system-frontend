@@ -28,4 +28,10 @@ export interface InputTextFormProps {
   id: string;
   name: string;
   label?: string;
+  placeholder?: string;
+  group?: boolean;
+  leftAddon?: string;
+  rightAddon?: string;
+  leftAddonType?: "text" | "icon";
+  rightAddonType?: "text" | "icon";
 }

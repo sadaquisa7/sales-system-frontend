@@ -10,8 +10,7 @@ const propsDefault: Partial<InputTextFormProps> = {
   invalid: false,
   pt: {
     root: {
-      className:
-        "block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6",
+      className: "",
     },
   },
   ptOptions: {},
@@ -24,6 +23,9 @@ const propsDefault: Partial<InputTextFormProps> = {
   variant: "outlined",
   id: "input-text-id",
   name: "input-text-name",
+  group: false,
+  leftAddonType: "text",
+  rightAddonType: "text",
 };
 
 const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
@@ -45,36 +47,59 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
   const dynamicPt = useMemo(() => {
     return {
       root: {
-        className: `block w-full rounded-md bg-white px-3 py-1.5 text-base ${
+        className: `block w-full ${
+          !props.group ? "rounded-md" : ""
+        } bg-white px-3 py-1.5 text-base ${
           errors.length > 0
             ? "text-red-900 outline outline-1 -outline-offset-1 outline-red-300 placeholder:text-red-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-600"
             : "text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
         } sm:text-sm/6`,
       },
     };
-  }, [errors]);
+  }, [errors, props.group]);
 
   return (
     <div>
       {props.label && (
         <LabelFormComponent for={props.name} value={props.label} />
       )}
-      <InputText
-        invalid={props.invalid}
-        keyfilter={props.keyfilter}
-        pt={dynamicPt}
-        ptOptions={props.ptOptions!}
-        size={props.size}
-        tooltip={props.tooltip!}
-        tooltipOptions={props.tooltipOptions!}
-        unstyled={props.unstyled}
-        validateOnly={props.validateOnly}
-        value={props.value !== undefined ? props.value : internalValue}
-        variant={props.variant}
-        onChange={handleChange}
-        id={props.id}
-        name={props.name}
-      />
+      <div className={props.group ? "p-inputgroup" : ""}>
+        {props.leftAddon && (
+          <span className="p-inputgroup-addon">
+            {props.leftAddonType === "icon" ? (
+              <i className={`pi ${props.leftAddon}`}></i>
+            ) : (
+              <span>{props.leftAddon}</span>
+            )}
+          </span>
+        )}
+        <InputText
+          invalid={props.invalid}
+          keyfilter={props.keyfilter}
+          pt={dynamicPt}
+          ptOptions={props.ptOptions!}
+          size={props.size}
+          tooltip={props.tooltip!}
+          tooltipOptions={props.tooltipOptions!}
+          unstyled={props.unstyled}
+          validateOnly={props.validateOnly}
+          value={props.value !== undefined ? props.value : internalValue}
+          variant={props.variant}
+          onChange={handleChange}
+          id={props.id}
+          name={props.name}
+          placeholder={props.placeholder}
+        />
+        {props.rightAddon && (
+          <span className="p-inputgroup-addon">
+            {props.rightAddonType === "icon" ? (
+              <i className={`pi ${props.rightAddon}`}></i>
+            ) : (
+              <span>{props.rightAddon}</span>
+            )}
+          </span>
+        )}
+      </div>
       {errors.length > 0 && (
         <div className="pt-1 space-y-1">
           {errors.map((error, index) => (

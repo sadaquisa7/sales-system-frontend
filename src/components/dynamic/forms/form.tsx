@@ -26,6 +26,18 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
             label="holaa"
             onChange={(e) => setNewForm({ input: e.target.value })}
           />
+          <InputTextFormComponent
+            value={newForm.input}
+            id="example-id"
+            name="name-example"
+            label="group"
+            group
+            leftAddon="$"
+            rightAddon="pi-star-fill"
+            leftAddonType="text"
+            rightAddonType="icon"
+            onChange={(e) => setNewForm({ input: e.target.value })}
+          />
         </div>
       </form>
     </div>
