@@ -1,10 +1,9 @@
-import { Button } from "primereact/button";
+import FormComponent from "@components/dynamic/forms/form";
 
 export default function Home() {
   return (
-    <div className="flex flex-col justify-center items-center ">
-      <label htmlFor="s">ss</label>
-      <Button label="Click me" icon="pi pi-check" />
+    <div className="flex justify-center items-center ">
+      <FormComponent mensaje="sandro" />
     </div>
   );
 }
