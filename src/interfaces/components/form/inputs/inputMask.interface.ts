@@ -2,27 +2,35 @@ import { InputTextPassThroughOptions } from "primereact/inputtext";
 import { PassThroughOptions } from "primereact/passthrough";
 import { TooltipOptions } from "primereact/tooltip/tooltipoptions";
 import { KeyFilterType } from "primereact/keyfilter";
+import { InputMaskChangeEvent } from "primereact/inputmask";
 
-export interface InputTextFormProps {
+export interface InputMaskFormProps {
+  autoClear?: boolean;
+  disabled?: boolean;
   invalid?: boolean;
   keyfilter?: KeyFilterType;
+  mask?: string;
   pt?: InputTextPassThroughOptions;
   ptOptions?: PassThroughOptions | null;
+  readOnly?: boolean;
+  required?: boolean;
   size?: string | number;
-  tooltip?: string | null;
+  slotChar?: string;
+  tooltip?: string;
   tooltipOptions?: TooltipOptions | null;
+  unmask?: boolean;
   unstyled?: boolean;
   validateOnly?: boolean;
   value?: string | null;
   variant?: "filled" | "outlined";
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   id: string;
   name: string;
-  label?: string;
-  placeholder?: string;
   group?: boolean;
   leftAddon?: string;
+  leftAddonType?: "icon" | "text";
   rightAddon?: string;
-  leftAddonType?: "text" | "icon";
-  rightAddonType?: "text" | "icon";
+  rightAddonType?: "icon" | "text";
+  label?: string;
+  placeholder?: string;
+  onChange?: (event: InputMaskChangeEvent) => void;
 }

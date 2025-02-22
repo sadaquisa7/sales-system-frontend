@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { PrimeReactProvider } from "primereact/api";
-import Tailwind from "primereact/passthrough/tailwind";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,10 +14,20 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      {/* <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              const style = document.createElement('style')
+              style.innerHTML = '@layer tailwind-base, primeReact, tailwind-utilities;'
+              style.setAttribute('type', 'text/css')
+              document.querySelector('head').prepend(style)
+            `,
+          }}
+        />
+      </head> */}
       <body>
-        <PrimeReactProvider value={{ unstyled: true, pt: Tailwind }}>
-          {children}
-        </PrimeReactProvider>
+        <PrimeReactProvider>{children}</PrimeReactProvider>
       </body>
     </html>
   );

@@ -1,40 +1,49 @@
 "use client";
 import { useState, useMemo } from "react";
-
-import { InputText } from "primereact/inputtext";
-import { InputTextFormProps } from "@/interfaces/components/form/inputs/inputText.interface";
+import {
+  InputNumber,
+  InputNumberValueChangeEvent,
+} from "primereact/inputnumber";
+import { InputNumberFormProps } from "@/interfaces/components/form/inputs/inputNumber.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
 import MessageFormProps from "@/components/form/messages/message.component";
 
-const propsDefault: Partial<InputTextFormProps> = {
+const propsDefault: Partial<InputNumberFormProps> = {
+  allowEmpty: false,
+  disabled: false,
   invalid: false,
   pt: {},
   ptOptions: {},
-  size: "small",
-  tooltip: null,
+  readOnly: false,
+  required: false,
+  size: 1,
   tooltipOptions: {},
   unstyled: false,
-  validateOnly: false,
   value: null,
   variant: "outlined",
-  id: "input-text-id",
-  name: "input-text-name",
+  id: "input-number-id",
+  name: "input-number-name",
   group: false,
   leftAddonType: "text",
   rightAddonType: "text",
+  mode: "decimal",
+  step: 1,
 };
 
-const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
+const InputNumberFormComponent: React.FC<InputNumberFormProps> = (
+  propsCurrent
+) => {
   const props = useMemo(
     () => ({ ...propsDefault, ...propsCurrent }),
     [propsCurrent]
   );
-
-  const [internalValue, setInternalValue] = useState(propsCurrent.value || "");
+  const [internalValue, setInternalValue] = useState<number | null>(
+    propsCurrent.value ?? null
+  );
   const [errors, setErrors] = useState<string[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
+  const handleChange = (event: InputNumberValueChangeEvent) => {
+    const newValue = event.value ?? null;
     if (props.onChange) {
       props.onChange(event);
     } else {
@@ -45,14 +54,16 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
 
   // const dynamicPt = useMemo(() => {
   //   return {
-  //     root: {
-  //       className: `block w-full ${
-  //         !props.group ? "rounded-md" : ""
-  //       } bg-white px-3 py-1.5 text-base ${
-  //         errors.length > 0
-  //           ? "text-red-900 outline outline-1 -outline-offset-1 outline-red-300 placeholder:text-red-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-600"
-  //           : "text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-  //       } sm:text-sm/6`,
+  //     input: {
+  //       root: {
+  //         className: `block w-full ${
+  //           !props.group ? "rounded-md" : ""
+  //         } bg-white px-3 py-1.5 text-base ${
+  //           errors.length > 0
+  //             ? "text-red-900 outline outline-1 -outline-offset-1 outline-red-300 placeholder:text-red-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-600"
+  //             : "text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+  //         } sm:text-sm/6`,
+  //       },
   //     },
   //   };
   // }, [errors, props.group]);
@@ -72,22 +83,34 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
             )}
           </span>
         )}
-        <InputText
+        <InputNumber
+          allowEmpty={props.allowEmpty}
+          disabled={props.disabled}
           invalid={props.invalid}
-          keyfilter={props.keyfilter}
-          pt={props.pt}
-          ptOptions={props.ptOptions!}
-          size={props.size}
-          tooltip={props.tooltip!}
-          tooltipOptions={props.tooltipOptions!}
-          unstyled={props.unstyled}
-          validateOnly={props.validateOnly}
-          value={props.value !== undefined ? props.value : internalValue}
-          variant={props.variant}
-          onChange={handleChange}
-          id={props.id}
+          max={props.max}
+          min={props.min}
+          minFractionDigits={props.minFractionDigits}
+          maxFractionDigits={props.maxFractionDigits}
+          mode={props.mode}
           name={props.name}
           placeholder={props.placeholder}
+          pt={props.pt}
+          ptOptions={props.ptOptions!}
+          readOnly={props.readOnly}
+          required={props.required}
+          size={props.size}
+          step={props.step}
+          tooltip={props.tooltip}
+          inputClassName={props.inputClassName}
+          tooltipOptions={props.tooltipOptions!}
+          unstyled={props.unstyled}
+          value={props.value !== undefined ? props.value : internalValue}
+          variant={props.variant}
+          onValueChange={handleChange}
+          inputId={props.id}
+          locale={props.locale}
+          currency={props.currency}
+          showButtons={props.showButtons}
           className="p-inputtext-sm w-full"
         />
         {props.rightAddon && (
@@ -113,4 +136,4 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
   );
 };
 
-export default InputTextFormComponent;
+export default InputNumberFormComponent;

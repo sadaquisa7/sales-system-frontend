@@ -1,40 +1,43 @@
 "use client";
 import { useState, useMemo } from "react";
-
-import { InputText } from "primereact/inputtext";
-import { InputTextFormProps } from "@/interfaces/components/form/inputs/inputText.interface";
+import { InputMask, InputMaskChangeEvent } from "primereact/inputmask";
+import { InputMaskFormProps } from "@/interfaces/components/form/inputs/inputMask.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
 import MessageFormProps from "@/components/form/messages/message.component";
 
-const propsDefault: Partial<InputTextFormProps> = {
+const propsDefault: Partial<InputMaskFormProps> = {
+  autoClear: true,
+  disabled: false,
   invalid: false,
   pt: {},
   ptOptions: {},
+  readOnly: false,
+  required: false,
   size: "small",
-  tooltip: null,
+  slotChar: "_",
   tooltipOptions: {},
+  unmask: false,
   unstyled: false,
   validateOnly: false,
   value: null,
   variant: "outlined",
-  id: "input-text-id",
-  name: "input-text-name",
+  id: "input-mask-id",
+  name: "input-mask-name",
   group: false,
   leftAddonType: "text",
   rightAddonType: "text",
 };
 
-const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
+const InputMaskFormComponent: React.FC<InputMaskFormProps> = (propsCurrent) => {
   const props = useMemo(
     () => ({ ...propsDefault, ...propsCurrent }),
     [propsCurrent]
   );
-
   const [internalValue, setInternalValue] = useState(propsCurrent.value || "");
   const [errors, setErrors] = useState<string[]>([]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
+  const handleChange = (event: InputMaskChangeEvent) => {
+    const newValue = event.value ?? "";
     if (props.onChange) {
       props.onChange(event);
     } else {
@@ -72,14 +75,21 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
             )}
           </span>
         )}
-        <InputText
+        <InputMask
+          autoClear={props.autoClear}
+          disabled={props.disabled}
           invalid={props.invalid}
           keyfilter={props.keyfilter}
+          mask={props.mask}
           pt={props.pt}
           ptOptions={props.ptOptions!}
+          readOnly={props.readOnly}
+          required={props.required}
           size={props.size}
-          tooltip={props.tooltip!}
+          slotChar={props.slotChar}
+          tooltip={props.tooltip}
           tooltipOptions={props.tooltipOptions!}
+          unmask={props.unmask}
           unstyled={props.unstyled}
           validateOnly={props.validateOnly}
           value={props.value !== undefined ? props.value : internalValue}
@@ -113,4 +123,4 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
   );
 };
 
-export default InputTextFormComponent;
+export default InputMaskFormComponent;
