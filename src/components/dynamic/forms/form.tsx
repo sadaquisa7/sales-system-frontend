@@ -5,6 +5,8 @@ import ButtonFormComponent from "@/components/form/buttons/button.component";
 import InputTextFormComponent from "@/components/form/inputs/inputText.component";
 import InputMaskFormComponent from "@/components/form/inputs/inputMask.component";
 import InputNumberFormComponent from "@/components/form/inputs/inputNumber.component";
+import InputSwitchFormComponent from "@/components/form/inputs/inputSwitch.component";
+import InputPasswordFormComponent from "@/components/form/inputs/inputPassword.component";
 
 interface FormProps {
   mensaje: string;
@@ -15,6 +17,8 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
     input: "",
     inputMask: "",
     inputNumber: 0,
+    inputSwitch: false,
+    inputPassword: "",
   });
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -37,8 +41,8 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
           />
           <InputTextFormComponent
             value={newForm.input}
-            id="example-id"
-            name="name-example"
+            id="example-id-group"
+            name="name-example-group"
             label="group"
             group
             leftAddon="$"
@@ -101,6 +105,25 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
             rightAddonType="icon"
             onChange={(e) =>
               setNewForm((prev) => ({ ...prev, inputNumber: e.value ?? 0 }))
+            }
+          />
+          <InputSwitchFormComponent
+            value={newForm.inputSwitch}
+            id="example-id-Switch"
+            name="name-example-Switch"
+            label="Switch"
+            onChange={(e) =>
+              setNewForm((prev) => ({ ...prev, inputSwitch: e.value }))
+            }
+          />
+          <InputPasswordFormComponent
+            id="example-id-Password"
+            name="name-example-Password"
+            label="Password"
+            toggleMask
+            value={newForm.inputPassword}
+            onChange={(e) =>
+              setNewForm((prev) => ({ ...prev, inputPassword: e.target.value }))
             }
           />
         </div>
