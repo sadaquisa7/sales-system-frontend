@@ -7,6 +7,8 @@ import InputMaskFormComponent from "@/components/form/inputs/inputMask.component
 import InputNumberFormComponent from "@/components/form/inputs/inputNumber.component";
 import InputSwitchFormComponent from "@/components/form/inputs/inputSwitch.component";
 import InputPasswordFormComponent from "@/components/form/inputs/inputPassword.component";
+import SelectSimpleFormComponent from "@/components/form/selects/selectSimple.component";
+import SelectMultipleFormComponent from "@/components/form/selects/selectMultiple.component";
 
 interface FormProps {
   mensaje: string;
@@ -19,7 +21,31 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
     inputNumber: 0,
     inputSwitch: false,
     inputPassword: "",
+    selectSimple: "",
+    selectMultiple: [],
   });
+
+  interface ObjectTest {
+    id: number;
+    name: string;
+  }
+
+  const optionsString = ["item 1", "item 2", "item 3", "item 4"];
+
+  const optionsObjects: ObjectTest[] = [
+    {
+      id: 1,
+      name: "item 1",
+    },
+    {
+      id: 2,
+      name: "item 2",
+    },
+    {
+      id: 3,
+      name: "item 4",
+    },
+  ];
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -28,8 +54,40 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
   return (
     <div>
       <form>
-        <div className="p-5 space-y-5">
+        <div className="p-5 gap-2 grid grid-cols-5">
           <ButtonFormComponent label={mensaje} onClick={handleClick} />
+          <SelectSimpleFormComponent
+            id="select-simple-id"
+            name="select-simple-name"
+            label="Simple select"
+            value={newForm.selectSimple}
+            options={optionsString}
+            // optionLabel="name"
+            // optionValue="id"
+            // filterBy="name"
+            onChange={(e) =>
+              setNewForm((prev) => ({ ...prev, selectSimple: e.value }))
+            }
+          />
+          <SelectMultipleFormComponent<ObjectTest>
+            id="select-multiple-id"
+            name="select-multiple-name"
+            label="Simple multiple"
+            inputId="selecct-multiple-inputId"
+            value={newForm.selectMultiple}
+            options={optionsObjects}
+            optionLabel="name"
+            optionValue="id"
+            filterBy="name"
+            itemTemplate={(option) => (
+              <span>
+                {option.id} - {option.name}
+              </span>
+            )}
+            onChange={(e) =>
+              setNewForm((prev) => ({ ...prev, selectMultiple: e.value }))
+            }
+          />
           <InputTextFormComponent
             value={newForm.input}
             id="example-id"

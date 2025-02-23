@@ -2,7 +2,7 @@ import FormComponent from "@components/dynamic/forms/form";
 
 export default function Home() {
   return (
-    <div className="flex justify-center items-center ">
+    <div>
       <FormComponent mensaje="sandro" />
     </div>
   );
