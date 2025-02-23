@@ -9,13 +9,25 @@ import InputSwitchFormComponent from "@/components/form/inputs/inputSwitch.compo
 import InputPasswordFormComponent from "@/components/form/inputs/inputPassword.component";
 import SelectSimpleFormComponent from "@/components/form/selects/selectSimple.component";
 import SelectMultipleFormComponent from "@/components/form/selects/selectMultiple.component";
+import DateCalendarFormComponent from "@/components/form/dates/calendar.component";
 
 interface FormProps {
   mensaje: string;
 }
 
+interface newFormInteface {
+  input: string;
+  inputMask: string;
+  inputNumber: number;
+  inputSwitch: boolean;
+  inputPassword: string;
+  selectSimple: string;
+  selectMultiple: never[];
+  dates: string | number | Date | (string | number | Date | null)[] | null;
+}
+
 const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
-  const [newForm, setNewForm] = useState({
+  const [newForm, setNewForm] = useState<newFormInteface>({
     input: "",
     inputMask: "",
     inputNumber: 0,
@@ -23,6 +35,7 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
     inputPassword: "",
     selectSimple: "",
     selectMultiple: [],
+    dates: null,
   });
 
   interface ObjectTest {
@@ -56,6 +69,15 @@ const FormComponent: React.FC<FormProps> = ({ mensaje }) => {
       <form>
         <div className="p-5 gap-2 grid grid-cols-5">
           <ButtonFormComponent label={mensaje} onClick={handleClick} />
+          <DateCalendarFormComponent
+            label="calendario"
+            name="calemdario"
+            value={newForm.dates}
+            // numberOfMonths={2}
+            showTime
+            selectionMode="range"
+            onChange={(e) => setNewForm((prev) => ({ ...prev, dates: e }))}
+          />
           <SelectSimpleFormComponent
             id="select-simple-id"
             name="select-simple-name"
