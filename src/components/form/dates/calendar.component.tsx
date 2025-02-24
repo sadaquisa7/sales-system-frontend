@@ -77,7 +77,7 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
 
   const convertedValue = useMemo(
     () => convertToArrayDate(internalValue, props.dateFormatValue ?? ""),
-    [internalValue]
+    [internalValue, props.dateFormatValue]
   );
 
   const [errors, setErrors] = useState<string[]>([]);

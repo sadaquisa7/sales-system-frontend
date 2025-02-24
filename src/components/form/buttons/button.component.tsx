@@ -27,6 +27,7 @@ const propsDefault: Partial<ButtonFormProps> = {
   tooltipOptions: {},
   unstyled: false,
   visible: true,
+  type: "button",
 };
 
 const ButtonFormComponent: React.FC<ButtonFormProps> = (propsCurrent) => {
@@ -55,6 +56,7 @@ const ButtonFormComponent: React.FC<ButtonFormProps> = (propsCurrent) => {
       tooltip={props.tooltip!}
       tooltipOptions={props.tooltipOptions!}
       unstyled={props.unstyled}
+      type={props.type}
       onClick={props.onClick}
     />
   );

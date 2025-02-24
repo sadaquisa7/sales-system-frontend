@@ -35,4 +35,5 @@ export interface ButtonFormProps {
   unstyled?: boolean;
   visible?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  type?: "submit" | "button";
 }

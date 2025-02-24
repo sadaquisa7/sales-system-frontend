@@ -24,7 +24,8 @@
       "@interfaces/*": ["./src/interfaces/*"],
       "@components/*": ["./src/components/*"],
       "@locale/*": ["./src/locale/*"],
-      "@utils/*": ["./src/utils/*"]
+      "@utils/*": ["./src/utils/*"],
+      "@constants/*": ["./src/constants/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
