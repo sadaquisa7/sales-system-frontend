@@ -6,7 +6,7 @@ import {
 } from "primereact/inputnumber";
 import { InputNumberFormProps } from "@/interfaces/components/form/inputs/inputNumber.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
-import MessageFormProps from "@/components/form/messages/message.component";
+import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
 
 const propsDefault: Partial<InputNumberFormProps> = {
   allowEmpty: false,
@@ -34,13 +34,16 @@ const InputNumberFormComponent: React.FC<InputNumberFormProps> = (
   propsCurrent
 ) => {
   const props = useMemo(
-    () => ({ ...propsDefault, ...propsCurrent }),
+    () => ({
+      ...propsDefault,
+      ...propsCurrent,
+      invalid: propsCurrent.errors && propsCurrent.errors.length > 0,
+    }),
     [propsCurrent]
   );
   const [internalValue, setInternalValue] = useState<number | null>(
     propsCurrent.value ?? null
   );
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (event: InputNumberValueChangeEvent) => {
     const newValue = event.value ?? null;
@@ -49,7 +52,6 @@ const InputNumberFormComponent: React.FC<InputNumberFormProps> = (
     } else {
       setInternalValue(newValue);
     }
-    setErrors([]);
   };
 
   // const dynamicPt = useMemo(() => {
@@ -123,11 +125,11 @@ const InputNumberFormComponent: React.FC<InputNumberFormProps> = (
           </span>
         )}
       </div>
-      {errors.length > 0 && (
+      {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
-          {errors.map((error, index) => (
+          {props.errors.map((error, index) => (
             <div key={index}>
-              <MessageFormProps text={error} severity="error" />
+              <MessageSimpleFormComponent text={error} severity="error" />
             </div>
           ))}
         </div>

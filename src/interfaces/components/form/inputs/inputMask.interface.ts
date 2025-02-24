@@ -33,4 +33,5 @@ export interface InputMaskFormProps {
   label?: string;
   placeholder?: string;
   onChange?: (event: InputMaskChangeEvent) => void;
+  errors?: string[];
 }

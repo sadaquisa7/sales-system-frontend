@@ -6,7 +6,7 @@ import {
   CalendarValue,
 } from "@/interfaces/components/form/dates/calendar.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
-import MessageFormProps from "@/components/form/messages/message.component";
+import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
 import { SyntheticEvent } from "react";
 import { FormEvent, Nullable } from "primereact/ts-helpers";
 import { configureLocale } from "@utils/calendar/localeConfig.utils";
@@ -67,6 +67,7 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
       dateFormat:
         propsCurrent.dateFormatInput?.replace("yyyy", "yy") ||
         propsDefault.dateFormat,
+      invalid: propsCurrent.errors && propsCurrent.errors.length > 0,
     }),
     [propsCurrent]
   );
@@ -79,8 +80,6 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
     () => convertToArrayDate(internalValue, props.dateFormatValue ?? ""),
     [internalValue, props.dateFormatValue]
   );
-
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (
     event: FormEvent<
@@ -96,7 +95,6 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
       props.onChange(convertedNewValue);
     }
     setInternalValue(convertedNewValue);
-    setErrors([]);
   };
 
   return (
@@ -187,11 +185,11 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
           onChange={handleChange}
         />
       </div>
-      {errors.length > 0 && (
+      {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
-          {errors.map((error, index) => (
+          {props.errors.map((error, index) => (
             <div key={index}>
-              <MessageFormProps text={error} severity="error" />
+              <MessageSimpleFormComponent text={error} severity="error" />
             </div>
           ))}
         </div>

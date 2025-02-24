@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { InputSwitch, InputSwitchChangeEvent } from "primereact/inputswitch";
 import { InputSwitchFormProps } from "@/interfaces/components/form/inputs/inputSwitch.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
-import MessageFormProps from "@/components/form/messages/message.component";
+import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
 
 const propsDefault: Partial<InputSwitchFormProps> = {
   autoFocus: false,
@@ -31,13 +31,16 @@ const InputSwitchFormComponent: React.FC<InputSwitchFormProps> = (
   propsCurrent
 ) => {
   const props = useMemo(
-    () => ({ ...propsDefault, ...propsCurrent }),
+    () => ({
+      ...propsDefault,
+      ...propsCurrent,
+      invalid: propsCurrent.errors && propsCurrent.errors.length > 0,
+    }),
     [propsCurrent]
   );
   const [internalChecked, setInternalChecked] = useState(
     propsCurrent.value || false
   );
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (event: InputSwitchChangeEvent) => {
     const checked = event.value;
@@ -46,7 +49,6 @@ const InputSwitchFormComponent: React.FC<InputSwitchFormProps> = (
     } else {
       setInternalChecked(checked);
     }
-    setErrors([]);
   };
 
   return (
@@ -75,11 +77,11 @@ const InputSwitchFormComponent: React.FC<InputSwitchFormProps> = (
           onChange={handleChange}
         />
       </div>
-      {errors.length > 0 && (
+      {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
-          {errors.map((error, index) => (
+          {props.errors.map((error, index) => (
             <div key={index}>
-              <MessageFormProps text={error} severity="error" />
+              <MessageSimpleFormComponent text={error} severity="error" />
             </div>
           ))}
         </div>

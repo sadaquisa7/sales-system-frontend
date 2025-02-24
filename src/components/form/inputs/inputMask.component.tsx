@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { InputMask, InputMaskChangeEvent } from "primereact/inputmask";
 import { InputMaskFormProps } from "@/interfaces/components/form/inputs/inputMask.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
-import MessageFormProps from "@/components/form/messages/message.component";
+import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
 
 const propsDefault: Partial<InputMaskFormProps> = {
   autoClear: true,
@@ -30,11 +30,14 @@ const propsDefault: Partial<InputMaskFormProps> = {
 
 const InputMaskFormComponent: React.FC<InputMaskFormProps> = (propsCurrent) => {
   const props = useMemo(
-    () => ({ ...propsDefault, ...propsCurrent }),
+    () => ({
+      ...propsDefault,
+      ...propsCurrent,
+      invalid: propsCurrent.errors && propsCurrent.errors.length > 0,
+    }),
     [propsCurrent]
   );
   const [internalValue, setInternalValue] = useState(propsCurrent.value || "");
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (event: InputMaskChangeEvent) => {
     const newValue = event.value ?? "";
@@ -43,22 +46,7 @@ const InputMaskFormComponent: React.FC<InputMaskFormProps> = (propsCurrent) => {
     } else {
       setInternalValue(newValue);
     }
-    setErrors([]);
   };
-
-  // const dynamicPt = useMemo(() => {
-  //   return {
-  //     root: {
-  //       className: `block w-full ${
-  //         !props.group ? "rounded-md" : ""
-  //       } bg-white px-3 py-1.5 text-base ${
-  //         errors.length > 0
-  //           ? "text-red-900 outline outline-1 -outline-offset-1 outline-red-300 placeholder:text-red-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-red-600"
-  //           : "text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-  //       } sm:text-sm/6`,
-  //     },
-  //   };
-  // }, [errors, props.group]);
 
   return (
     <div>
@@ -110,11 +98,11 @@ const InputMaskFormComponent: React.FC<InputMaskFormProps> = (propsCurrent) => {
           </span>
         )}
       </div>
-      {errors.length > 0 && (
+      {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
-          {errors.map((error, index) => (
+          {props.errors.map((error, index) => (
             <div key={index}>
-              <MessageFormProps text={error} severity="error" />
+              <MessageSimpleFormComponent text={error} severity="error" />
             </div>
           ))}
         </div>

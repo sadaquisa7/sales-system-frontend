@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
 import { SelectSimpleFormProps } from "@/interfaces/components/form/selects/selectSimple.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
-import MessageFormProps from "@/components/form/messages/message.component";
+import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
 
 const propsDefault: Partial<SelectSimpleFormProps> = {
   appendTo: null,
@@ -51,13 +51,16 @@ const SelectSimpleFormComponent = <T,>(
   propsCurrent: SelectSimpleFormProps<T>
 ): React.ReactElement => {
   const props = useMemo(
-    () => ({ ...propsDefault, ...propsCurrent }),
+    () => ({
+      ...propsDefault,
+      ...propsCurrent,
+      invalid: propsCurrent.errors && propsCurrent.errors.length > 0,
+    }),
     [propsCurrent]
   );
   const [selectedValue, setSelectedValue] = useState(
     propsCurrent.value || null
   );
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (event: DropdownChangeEvent) => {
     if (props.onChange) {
@@ -65,7 +68,6 @@ const SelectSimpleFormComponent = <T,>(
     } else {
       setSelectedValue(event.value);
     }
-    setErrors([]);
   };
 
   return (
@@ -130,11 +132,11 @@ const SelectSimpleFormComponent = <T,>(
         optionDisabled={props.optionDisabled}
         onChange={handleChange}
       />
-      {errors.length > 0 && (
+      {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
-          {errors.map((error, index) => (
+          {props.errors.map((error, index) => (
             <div key={index}>
-              <MessageFormProps text={error} severity="error" />
+              <MessageSimpleFormComponent text={error} severity="error" />
             </div>
           ))}
         </div>

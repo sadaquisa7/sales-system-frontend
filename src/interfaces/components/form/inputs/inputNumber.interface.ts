@@ -57,4 +57,5 @@ export interface InputNumberFormProps {
   rightAddonType?: "icon" | "text";
   label?: string;
   onChange?: (event: InputNumberValueChangeEvent) => void;
+  errors?: string[];
 }

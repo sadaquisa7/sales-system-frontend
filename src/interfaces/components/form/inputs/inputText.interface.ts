@@ -25,4 +25,5 @@ export interface InputTextFormProps {
   rightAddon?: string;
   leftAddonType?: "text" | "icon";
   rightAddonType?: "text" | "icon";
+  errors?: string[];
 }

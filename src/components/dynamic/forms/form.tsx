@@ -20,13 +20,15 @@ import {
 } from "@/interfaces/components/dynamic/forms/form.interface";
 import { FIELD_TYPES } from "@constants/form.constants";
 import { extractValue, getDefaultValue } from "@/utils/form/getValue.utils";
+import { z } from "zod";
 
 // Field renderer component
 const FieldRenderer: React.FC<{
   field: FormField;
   value: ValueComponent;
   onChange: (fieldName: string, value: ValueComponent) => void;
-}> = ({ field, value, onChange }) => {
+  errors?: string[];
+}> = ({ field, value, onChange, errors }) => {
   const commonProps = {
     value,
     id: field.id || `${field.name}-id`,
@@ -34,6 +36,7 @@ const FieldRenderer: React.FC<{
     label: field.label,
     onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
       onChange(field.name, extractValue(field.type, e)),
+    errors,
     ...(field.props || {}),
   };
 
@@ -66,8 +69,10 @@ const ButtonRenderer: React.FC<{
 };
 const FormComponent = <T extends Record<string, any>>({
   config,
+  schema,
 }: {
   config: FormConfig;
+  schema?: z.ZodObject<any>;
 }) => {
   const router = useRouter();
 
@@ -83,9 +88,11 @@ const FormComponent = <T extends Record<string, any>>({
   ) as T;
 
   const [formData, setFormData] = useState<T>(initialState);
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const handleFieldChange = (fieldName: string, value: ValueComponent) => {
     setFormData((prev) => ({ ...prev, [fieldName]: value } as T));
+    setErrors((prev) => ({ ...prev, [fieldName]: [] }));
   };
 
   const handleButtonClick = (
@@ -105,7 +112,26 @@ const FormComponent = <T extends Record<string, any>>({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("ejecuto esto");
+    if (schema) {
+      const result = schema.safeParse(formData);
+      if (!result.success) {
+        const fieldErrors: Record<string, string[]> = {};
+        result.error.errors.forEach((err) => {
+          const fieldName = err.path[0]?.toString();
+          if (fieldName) {
+            if (!fieldErrors[fieldName]) {
+              fieldErrors[fieldName] = [];
+            }
+            fieldErrors[fieldName].push(err.message);
+          }
+        });
+        setErrors(fieldErrors);
+        return;
+      }
+      console.log("Form data is valid:", result.data);
+    } else {
+      console.log("Form submitted without schema validation:", formData);
+    }
   };
 
   return (
@@ -126,6 +152,7 @@ const FormComponent = <T extends Record<string, any>>({
                   field={field}
                   value={formData[field.name]}
                   onChange={handleFieldChange}
+                  errors={errors[field.name]}
                 />
               </div>
             ))}

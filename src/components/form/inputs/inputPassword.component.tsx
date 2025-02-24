@@ -3,7 +3,7 @@ import { useState, useMemo } from "react";
 import { Password } from "primereact/password";
 import { InputPasswordFormProps } from "@/interfaces/components/form/inputs/inputPassword.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
-import MessageFormProps from "@/components/form/messages/message.component";
+import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
 import "@css/input/inputPassword.css";
 
 const propsDefault: Partial<InputPasswordFormProps> = {
@@ -37,11 +37,14 @@ const InputPasswordFormComponent: React.FC<InputPasswordFormProps> = (
   propsCurrent
 ) => {
   const props = useMemo(
-    () => ({ ...propsDefault, ...propsCurrent }),
+    () => ({
+      ...propsDefault,
+      ...propsCurrent,
+      invalid: propsCurrent.errors && propsCurrent.errors.length > 0,
+    }),
     [propsCurrent]
   );
   const [internalValue, setInternalValue] = useState(propsCurrent.value || "");
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.value;
@@ -50,7 +53,6 @@ const InputPasswordFormComponent: React.FC<InputPasswordFormProps> = (
     } else {
       setInternalValue(newValue);
     }
-    setErrors([]);
   };
 
   return (
@@ -84,11 +86,11 @@ const InputPasswordFormComponent: React.FC<InputPasswordFormProps> = (
         inputClassName="w-full"
         className="p-inputtext-sm w-full p-inputpassword"
       />
-      {errors.length > 0 && (
+      {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
-          {errors.map((error, index) => (
+          {props.errors.map((error, index) => (
             <div key={index}>
-              <MessageFormProps text={error} severity="error" />
+              <MessageSimpleFormComponent text={error} severity="error" />
             </div>
           ))}
         </div>

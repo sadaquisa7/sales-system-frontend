@@ -95,4 +95,5 @@ export interface SelectSimpleFormProps<T = unknown> {
   virtualScrollerOptions?: VirtualScrollerProps | null;
   label?: string;
   onChange?: (event: DropdownChangeEvent) => void;
+  errors?: string[];
 }

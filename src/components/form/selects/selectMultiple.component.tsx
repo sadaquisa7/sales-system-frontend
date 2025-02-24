@@ -3,7 +3,7 @@ import { useMemo, useState } from "react";
 import { MultiSelect, MultiSelectChangeEvent } from "primereact/multiselect";
 import { SelectMultipleFormProps } from "@/interfaces/components/form/selects/selectMultiple.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
-import MessageFormProps from "@/components/form/messages/message.component";
+import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
 
 const propsDefault: Partial<SelectMultipleFormProps> = {
   appendTo: null,
@@ -38,11 +38,14 @@ const SelectMultipleFormComponent = <T,>(
   propsCurrent: SelectMultipleFormProps<T>
 ): React.ReactElement => {
   const props = useMemo(
-    () => ({ ...propsDefault, ...propsCurrent }),
+    () => ({
+      ...propsDefault,
+      ...propsCurrent,
+      invalid: propsCurrent.errors && propsCurrent.errors.length > 0,
+    }),
     [propsCurrent]
   );
   const [internalValue, setInternalValue] = useState(props.value || []);
-  const [errors, setErrors] = useState<string[]>([]);
 
   const handleChange = (e: MultiSelectChangeEvent) => {
     const newValue = e.value;
@@ -51,7 +54,6 @@ const SelectMultipleFormComponent = <T,>(
     } else {
       setInternalValue(newValue);
     }
-    setErrors([]);
   };
 
   return (
@@ -135,11 +137,11 @@ const SelectMultipleFormComponent = <T,>(
           onChange={handleChange}
         />
       </div>
-      {errors.length > 0 && (
+      {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
-          {errors.map((error, index) => (
+          {props.errors.map((error, index) => (
             <div key={index}>
-              <MessageFormProps text={error} severity="error" />
+              <MessageSimpleFormComponent text={error} severity="error" />
             </div>
           ))}
         </div>

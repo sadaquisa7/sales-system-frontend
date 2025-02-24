@@ -101,4 +101,5 @@ export interface SelectMultipleFormProps<T = unknown> {
   virtualScrollerOptions?: VirtualScrollerProps;
   label?: string;
   onChange?: (event: MultiSelectChangeEvent) => void;
+  errors?: string[];
 }

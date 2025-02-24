@@ -1,4 +1,3 @@
-"use client";
 import { Message } from "primereact/message";
 import { MessageFormProps } from "@/interfaces/components/form/messages/message.interface";
 

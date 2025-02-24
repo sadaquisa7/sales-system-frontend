@@ -1,12 +1,7 @@
 "use client";
 import FormComponent from "@components/dynamic/forms/form";
 import { FormConfig } from "@/interfaces/components/dynamic/forms/form.interface";
-interface FormData {
-  firstName?: string;
-  lastName?: string;
-  birthDate?: string;
-}
-
+import { FormData, formSchema } from "@validations/login/login.validation";
 export default function Home() {
   const formConfig: FormConfig = {
     info: {
@@ -76,7 +71,7 @@ export default function Home() {
 
   return (
     <div>
-      <FormComponent<FormData> config={formConfig} />
+      <FormComponent<FormData> config={formConfig} schema={formSchema} />
     </div>
   );
 }

@@ -29,4 +29,5 @@ export interface InputPasswordFormProps {
   placeholder?: string;
   value?: string | readonly string[] | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  errors?: string[];
 }

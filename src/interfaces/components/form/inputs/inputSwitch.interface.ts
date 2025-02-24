@@ -28,4 +28,5 @@ export interface InputSwitchFormProps {
   variant?: "filled" | "outlined";
   label?: string;
   onChange?: (event: InputSwitchChangeEvent) => void;
+  errors?: string[];
 }

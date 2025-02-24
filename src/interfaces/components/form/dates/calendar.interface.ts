@@ -89,6 +89,7 @@ export interface DateCalendarFormProps {
   ) => void;
   dateFormatValue?: string;
   dateFormatInput?: string;
+  errors?: string[];
 }
 
 export type CalendarValue =
