@@ -1,7 +1,11 @@
+import LoginComponent from "@pages/login/page";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Login",
+  description: "Pagina para Iniciar Sesión",
+};
+
 export default function Login() {
-  return (
-    <div className="flex flex-col justify-center items-center ">
-      <label htmlFor="s">Login</label>
-    </div>
-  );
+  return <LoginComponent />;
 }

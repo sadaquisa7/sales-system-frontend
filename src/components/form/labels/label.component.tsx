@@ -12,7 +12,7 @@ const LabelFormComponent: React.FC<LabelFormProps> = (propsCurrent) => {
   }
   return (
     <label
-      className="block text-sm/6 font-medium text-gray-900"
+      className="block text-sm/6 font-bold text-gray-900"
       htmlFor={props.for}
     >
       {props.value}

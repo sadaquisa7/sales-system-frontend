@@ -26,7 +26,10 @@
       "@locale/*": ["./src/locale/*"],
       "@utils/*": ["./src/utils/*"],
       "@constants/*": ["./src/constants/*"],
-      "@validations/*": ["./src/validations/*"]
+      "@validations/*": ["./src/validations/*"],
+      "@helpers/*": ["./src/helpers/*"],
+      "@configs/*": ["./src/configs/*"],
+      "@pages/*": ["./src/pages/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

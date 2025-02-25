@@ -25,6 +25,8 @@ const propsDefault: Partial<InputSwitchFormProps> = {
   unstyled: false,
   variant: "outlined",
   label: "",
+  required: false,
+  readOnly: false,
 };
 
 const InputSwitchFormComponent: React.FC<InputSwitchFormProps> = (
@@ -75,6 +77,8 @@ const InputSwitchFormComponent: React.FC<InputSwitchFormProps> = (
           tooltipOptions={props.tooltipOptions!}
           unstyled={props.unstyled}
           onChange={handleChange}
+          required={props.required}
+          readOnly={props.readOnly}
         />
       </div>
       {props.errors && props.errors.length > 0 && (

@@ -36,4 +36,5 @@ export interface ButtonFormProps {
   visible?: boolean;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   type?: "submit" | "button";
+  className?: string;
 }

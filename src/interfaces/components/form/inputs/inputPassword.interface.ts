@@ -30,4 +30,7 @@ export interface InputPasswordFormProps {
   value?: string | readonly string[] | number;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   errors?: string[];
+  required?: boolean;
+  readOnly?: boolean;
+  disabled?: boolean;
 }

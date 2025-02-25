@@ -143,7 +143,7 @@ const FormComponent = <T extends Record<string, any>>({
           {config.info.title.value}
         </h1>
       )}
-      <form onSubmit={handleSubmit} className="space-y-5">
+      <form onSubmit={handleSubmit}>
         {config.sections.map((section, index) => (
           <div key={index} className={section.className}>
             {section.fields.map((field) => (

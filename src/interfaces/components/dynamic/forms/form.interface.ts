@@ -46,7 +46,7 @@ export interface FormInfo {
 
 // Tipo para el grupo de botones
 export interface FormButtons {
-  className: string; // Clases CSS para el contenedor de botones
+  className?: string; // Clases CSS para el contenedor de botones
   items: FormButton[]; // Array de botones
 }
 

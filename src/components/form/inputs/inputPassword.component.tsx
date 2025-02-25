@@ -31,6 +31,9 @@ const propsDefault: Partial<InputPasswordFormProps> = {
   id: "input-password-id",
   name: "input-password-name",
   value: "",
+  required: false,
+  readOnly: false,
+  disabled: false,
 };
 
 const InputPasswordFormComponent: React.FC<InputPasswordFormProps> = (
@@ -85,6 +88,9 @@ const InputPasswordFormComponent: React.FC<InputPasswordFormProps> = (
         name={props.name}
         inputClassName="w-full"
         className="p-inputtext-sm w-full p-inputpassword"
+        required={props.required}
+        readOnly={props.readOnly}
+        disabled={props.disabled}
       />
       {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">

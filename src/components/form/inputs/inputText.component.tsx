@@ -22,6 +22,9 @@ const propsDefault: Partial<InputTextFormProps> = {
   group: false,
   leftAddonType: "text",
   rightAddonType: "text",
+  required: false,
+  readOnly: false,
+  disabled: false,
 };
 
 const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
@@ -91,6 +94,9 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
           name={props.name}
           placeholder={props.placeholder}
           className="p-inputtext-sm w-full"
+          required={props.required}
+          readOnly={props.readOnly}
+          disabled={props.disabled}
         />
         {props.rightAddon && (
           <span className="p-inputgroup-addon">

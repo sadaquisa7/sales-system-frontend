@@ -57,6 +57,7 @@ const ButtonFormComponent: React.FC<ButtonFormProps> = (propsCurrent) => {
       tooltipOptions={props.tooltipOptions!}
       unstyled={props.unstyled}
       type={props.type}
+      className={props.className}
       onClick={props.onClick}
     />
   );

@@ -29,4 +29,6 @@ export interface InputSwitchFormProps {
   label?: string;
   onChange?: (event: InputSwitchChangeEvent) => void;
   errors?: string[];
+  required?: boolean;
+  readOnly?: boolean;
 }
