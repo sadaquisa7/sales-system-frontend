@@ -21,6 +21,9 @@ import {
 import { FIELD_TYPES } from "@constants/form.constants";
 import { extractValue, getDefaultValue } from "@/utils/form/getValue.utils";
 import { z } from "zod";
+import { useToast } from "@contexts/toast/toast.context";
+import { ApiResponse } from "@interfaces/axios/axio.interface";
+import { useLoading } from "@contexts/loading/loading.context";
 
 // Field renderer component
 const FieldRenderer: React.FC<{
@@ -75,6 +78,8 @@ const FormComponent = <T extends Record<string, any>>({
   schema?: z.ZodObject<any>;
 }) => {
   const router = useRouter();
+  const { success, error } = useToast();
+  const { showLoading, hideLoading } = useLoading();
 
   const initialState = config.sections.reduce(
     (acc: Partial<T>, section: FormSection) => {
@@ -110,7 +115,7 @@ const FormComponent = <T extends Record<string, any>>({
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (schema) {
       const result = schema.safeParse(formData);
@@ -129,6 +134,25 @@ const FormComponent = <T extends Record<string, any>>({
         return;
       }
       console.log("Form data is valid:", result.data);
+      if (!(config.info && config.info.service)) {
+        return false;
+      }
+      showLoading();
+      try {
+        const response: ApiResponse = await config.info.service(result.data);
+        console.log("Response from service:", response);
+        const { message, status } = response;
+        if (status) {
+          success(message);
+        } else {
+          error(message);
+        }
+      } catch (e) {
+        console.error("Error calling service:", e);
+        error("An unexpected error occurred");
+      } finally {
+        hideLoading();
+      }
     } else {
       console.log("Form submitted without schema validation:", formData);
     }

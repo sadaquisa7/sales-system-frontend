@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Tipos básicos para los campos del formulario
+import { ApiResponse } from "@interfaces/axios/axio.interface";
+
 export interface FormField {
   type:
     | "input_text"
@@ -39,9 +41,9 @@ export interface FormTitle {
 }
 
 // Tipo para la información general del formulario
-export interface FormInfo {
+export interface FormInfo<T = any, U = any> {
   title?: FormTitle; // Título del formulario
-  service: string; // URL del servicio para "save"
+  service?: (data?: T) => Promise<ApiResponse<U>>;
 }
 
 // Tipo para el grupo de botones

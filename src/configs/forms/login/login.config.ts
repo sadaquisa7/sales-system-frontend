@@ -6,7 +6,6 @@ export const ConfigForm: FormConfig = {
       value: "Iniciar Sesión",
       className: "text-center text-2xl font-bold tracking-tight text-gray-900",
     },
-    service: "https://api.example.com/register",
   },
   sections: [
     {
@@ -40,7 +39,7 @@ export const ConfigForm: FormConfig = {
         label: "Iniciar Sesión",
         action: "button",
         props: {
-          type: "submit",
+          type: "button",
           className: "w-full",
         },
       },
