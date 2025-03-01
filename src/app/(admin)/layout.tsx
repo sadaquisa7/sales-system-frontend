@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import TopNav from "@/components/layouts/admin/horizontal/topNav.component";
 import SideMenu from "@/components/layouts/admin/vertical/sideMenu.component";
+import { IsOpenMenuMobileProvider } from "@contexts/menu/isOpenMobile";
 
 export const metadata: Metadata = {
   title: "Admin",
@@ -13,7 +14,7 @@ export default function AdminLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
+    <IsOpenMenuMobileProvider>
       <TopNav />
       <div className="flex">
         <SideMenu />
@@ -23,6 +24,6 @@ export default function AdminLayout({
           </section>
         </section>
       </div>
-    </>
+    </IsOpenMenuMobileProvider>
   );
 }
