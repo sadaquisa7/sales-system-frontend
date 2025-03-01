@@ -31,7 +31,8 @@
       "@configs/*": ["./src/configs/*"],
       "@pages/*": ["./src/pages/*"],
       "@contexts/*": ["./src/contexts/*"],
-      "@libs/*": ["./src/libs/*"]
+      "@libs/*": ["./src/libs/*"],
+      "@hooks/*": ["./src/hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
