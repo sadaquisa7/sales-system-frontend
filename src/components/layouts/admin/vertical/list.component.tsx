@@ -1,12 +1,13 @@
 import MenuItemVertical from "./item.component";
 import { MenuListVerticalProps } from "@interfaces/components/layouts/admin/vertical/list.interface";
+import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.interface";
 const MenuListVertical: React.FC<MenuListVerticalProps> = ({
   menu = [],
   isCollapsed = false,
   onMenuClick,
   className,
 }) => {
-  const handleMenuClick = (item: any) => {
+  const handleMenuClick = (item: MenuItem) => {
     if (onMenuClick) {
       onMenuClick(item);
     }

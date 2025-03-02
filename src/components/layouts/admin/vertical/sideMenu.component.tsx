@@ -3,7 +3,10 @@
 import { useState } from "react";
 import MenuListVertical from "./list.component";
 import { useRouter } from "next/navigation";
-import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.interface";
+import {
+  MenuItem,
+  MenuItemRoute,
+} from "@interfaces/components/layouts/admin/vertical/item.interface";
 import { sideMenuVariant } from "./variants/sideMenu.variants";
 import { useIsOpenMenuMobile } from "@contexts/menu/isOpenMobile";
 const SideMenu: React.FC = () => {
@@ -21,7 +24,7 @@ const SideMenu: React.FC = () => {
   // Handle menu item clicks with routing
   const menuClick = (item: MenuItem) => {
     if (item.route) {
-      const { name, params } = item.route;
+      const { name, params }: MenuItemRoute = item.route;
       if (name) {
         // In Next.js, we use router.push for navigation
         // You'll need to adapt this based on your routing setup

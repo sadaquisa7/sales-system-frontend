@@ -49,18 +49,19 @@ const MenuItemNavVertical: React.FC<MenuItemVerticalProps> = ({
     hasChildren,
     isActive,
     isExpanded,
+    isCollapsed,
   });
 
   return (
     <>
       <li className={baseClass()} onClick={handleMenuClick}>
         <div className={contentClass()}>
-          {item.icon && <i className={`${item.icon}`} />}
+          {item.icon && <i className={`${item.icon} !text-base`} />}
           {!isCollapsed && <span>{item.label}</span>}
         </div>
         {!isCollapsed && hasChildren && (
           <i
-            className={`${chevronClass} pi ${
+            className={`${chevronClass}  pi ${
               item.show ? "pi-angle-up" : "pi-angle-down"
             }`}
           />

@@ -1,9 +1,14 @@
+export interface MenuItemRoute {
+  name: string;
+  params?: string;
+}
+
 export interface MenuItem {
   label: string;
   icon?: string;
   children?: MenuItem[];
   show?: boolean;
-  [key: string]: any;
+  route?: MenuItemRoute;
 }
 
 export interface MenuItemVerticalProps {

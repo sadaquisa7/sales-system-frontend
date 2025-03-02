@@ -3,6 +3,6 @@ import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.int
 export interface MenuListVerticalProps {
   menu?: MenuItem[];
   isCollapsed?: boolean;
-  onMenuClick?: (item: any) => void;
+  onMenuClick?: (item: MenuItem) => void;
   className?: string;
 }

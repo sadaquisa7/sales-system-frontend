@@ -36,6 +36,14 @@ export const menuItemVariant = tv({
         base: "hover:bg-white-joinnus-2",
       },
     },
+    isCollapsed: {
+      true: {
+        base: "",
+      },
+      false: {
+        base: "",
+      },
+    },
   },
 
   // Compound variants for combinations

@@ -1,21 +1,33 @@
 "use client";
-import { useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef, useCallback, useMemo } from "react";
 import { Toast } from "primereact/toast";
 import { useToast } from "@contexts/toast/toast.context";
 import "@css/toast/toast.css";
 export default function ToastComponent() {
-  const toastRefs = {
-    "top-left": useRef<Toast>(null),
-    "top-right": useRef<Toast>(null),
-    "bottom-left": useRef<Toast>(null),
-    "bottom-right": useRef<Toast>(null),
-    "top-center": useRef<Toast>(null),
-    "bottom-center": useRef<Toast>(null),
-    center: useRef<Toast>(null),
-  };
+  const toastTopLeft = useRef<Toast>(null);
+  const toastTopRight = useRef<Toast>(null);
+  const toastBottomLeft = useRef<Toast>(null);
+  const toastBottomRight = useRef<Toast>(null);
+  const toastTopCenter = useRef<Toast>(null);
+  const toastBottomCenter = useRef<Toast>(null);
+  const toastCenter = useRef<Toast>(null);
+
+  const toastRefs = useMemo(
+    () => ({
+      "top-left": toastTopLeft,
+      "top-right": toastTopRight,
+      "bottom-left": toastBottomLeft,
+      "bottom-right": toastBottomRight,
+      "top-center": toastTopCenter,
+      "bottom-center": toastBottomCenter,
+      center: toastCenter,
+    }),
+    []
+  );
+  const toastRefsArray = Object.values(toastRefs);
 
   const { toasts, removeToast } = useToast();
-  const handleRemoveToast = useCallback(removeToast, []);
+  const handleRemoveToast = useCallback(removeToast, [removeToast]);
 
   useEffect(() => {
     if (toasts.length > 0) {
@@ -42,7 +54,7 @@ export default function ToastComponent() {
         handleRemoveToast(toast.id);
       });
     }
-  }, [toasts, handleRemoveToast, Object.values(toastRefs)]);
+  }, [toasts, handleRemoveToast, toastRefs, toastRefsArray]);
 
   return (
     <>

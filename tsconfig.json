@@ -29,7 +29,7 @@
       "@validations/*": ["./src/validations/*"],
       "@helpers/*": ["./src/helpers/*"],
       "@configs/*": ["./src/configs/*"],
-      "@pages/*": ["./src/pages/*"],
+      "@templates/*": ["./src/templates/*"],
       "@contexts/*": ["./src/contexts/*"],
       "@libs/*": ["./src/libs/*"],
       "@hooks/*": ["./src/hooks/*"]
