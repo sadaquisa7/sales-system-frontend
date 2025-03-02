@@ -14,7 +14,9 @@ const configApi = axios.create({
 // Interceptor para añadir el token desde la cookie antes de cada solicitud
 configApi.interceptors.request.use(
   (config) => {
-    const token = Cookies.get("session_token"); // Nombre de la cookie donde está el token
+    const NAME_SESSION =
+      process.env.NEXT_PUBLIC_COOKIE_NAME_SESSION || "session_token";
+    const token = Cookies.get(NAME_SESSION); // Nombre de la cookie donde está el token
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; // Añadimos el token al header
     }

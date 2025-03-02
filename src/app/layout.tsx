@@ -1,9 +1,11 @@
+import ToastComponent from "@components/form/toasts/toast.component";
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { PrimeReactProvider } from "primereact/api";
 import { ToastProvider } from "@contexts/toast/toast.context";
-import ToastComponent from "@components/form/toasts/toast.component";
 import { LoadingProvider } from "@contexts/loading/loading.context";
+import { AuthProvider } from "@contexts/auth/auth.context";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -33,8 +35,10 @@ export default function RootLayout({
         <PrimeReactProvider>
           <ToastProvider>
             <LoadingProvider>
-              <ToastComponent />
-              {children}
+              <AuthProvider>
+                <ToastComponent />
+                {children}
+              </AuthProvider>
             </LoadingProvider>
           </ToastProvider>
         </PrimeReactProvider>

@@ -2,27 +2,30 @@
 import FormComponent from "@components/dynamic/forms/form";
 import { NewForm, FormSchema } from "@validations/login/login.validation";
 import { ConfigForm } from "@configs/forms/login/login.config";
-import { loginService } from "@/services/auth/auth.service";
+import { authService } from "@/services/auth/auth.service";
 import { useToast } from "@contexts/toast/toast.context";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
 import { useLoading } from "@contexts/loading/loading.context";
-import { LoginResponse } from "@interfaces/services/login/login.interface";
+import { LoginResponse } from "@/interfaces/services/auth/login.interface";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+
 export default function LoginComponent() {
   const router = useRouter();
   const { success, error } = useToast();
   const { showLoading, hideLoading } = useLoading();
+  const NAME_SESSION =
+    process.env.NEXT_PUBLIC_COOKIE_NAME_SESSION || "session_token";
   const login = async (form: NewForm) => {
     showLoading();
     try {
-      const response: ApiResponse<LoginResponse> = await loginService.login(
+      const response: ApiResponse<LoginResponse> = await authService.login(
         form
       );
       const { message, status, data } = response;
       if (status && data) {
         const { access_token, expires_at } = data;
-        Cookies.set("session_token", access_token, { expires: expires_at });
+        Cookies.set(NAME_SESSION, access_token, { expires: expires_at });
         success(message);
         router.push("/");
       } else {
