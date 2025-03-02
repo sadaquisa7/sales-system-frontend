@@ -8,7 +8,9 @@ import { ApiResponse } from "@interfaces/axios/axio.interface";
 import { useLoading } from "@contexts/loading/loading.context";
 import { LoginResponse } from "@interfaces/services/login/login.interface";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 export default function LoginComponent() {
+  const router = useRouter();
   const { success, error } = useToast();
   const { showLoading, hideLoading } = useLoading();
   const login = async (form: NewForm) => {
@@ -22,6 +24,7 @@ export default function LoginComponent() {
         const { access_token, expires_at } = data;
         Cookies.set("session_token", access_token, { expires: expires_at });
         success(message);
+        router.push("/");
       } else {
         error(message);
       }
