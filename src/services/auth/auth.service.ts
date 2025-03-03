@@ -19,12 +19,19 @@ export const authService = {
     return response;
   },
 
-  me: async (token?: string): Promise<ApiResponse<MeResponse>> => {
+  me: async (
+    pathname: string,
+    token?: string
+  ): Promise<ApiResponse<MeResponse>> => {
     const headers: HeadersInit = {
       Authorization: token ? `Bearer ${token}` : "",
     };
     const response: ApiResponse<MeResponse> =
-      await salesApiFetch.get<MeResponse>(`${baseUrl}/me`, {}, headers);
+      await salesApiFetch.get<MeResponse>(
+        `${baseUrl}/me`,
+        { pathname },
+        headers
+      );
     return response;
   },
 

@@ -1,3 +1,4 @@
+import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.interface";
 export interface User {
   username?: string;
   abbreviation?: string;
@@ -6,10 +7,10 @@ export interface User {
 
 export interface AuthContextValue {
   user: User | null;
-  menus: string[];
+  menus: MenuItem[];
   permissions: string[];
   setUser: (user: User | null) => void;
-  setMenus: (menus: string[]) => void;
+  setMenus: (menus: MenuItem[]) => void;
   setPermissions: (permissions: string[]) => void;
   logout: () => void;
 }

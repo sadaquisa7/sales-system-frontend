@@ -1,9 +1,19 @@
-import { NextRequest, NextResponse } from "next/server";
+import { Response } from "@/interfaces/middlewares/middleware.interface";
+import { authService } from "@/services/auth/auth.service";
 
-export function guestMiddleware(request: NextRequest, sessionToken?: string) {
+export async function guestMiddleware(pathname: string, sessionToken?: string) {
+  let res: Response = {
+    status: false,
+    redirect: "/",
+  };
   if (sessionToken) {
     console.log("Usuario autenticado. Redirigiendo a /");
-    return NextResponse.redirect(new URL("/", request.url));
+    const { status, data } = await authService.me(pathname, sessionToken);
+    console.log("Verificando la session token ==> ", status);
+    if (status && data) {
+      res.data = data;
+      res.status = true;
+    }
   }
-  return NextResponse.next();
+  return res;
 }

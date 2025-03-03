@@ -1,35 +1,25 @@
 "use client";
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 import Cookies from "js-cookie"; // Librería para manejar cookies en el cliente
 import { AuthContextValue, User } from "@interfaces/auth/auth.interface";
+import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.interface";
 
 // Crear contexto con valor inicial undefined
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [menus, setMenus] = useState<string[]>([]);
-  const [permissions, setPermissions] = useState<string[]>([]);
-
   // Función para obtener cookies
   const getCookie = (name: string) => {
     const cookie = Cookies.get(name);
     return cookie ? JSON.parse(cookie) : null;
   };
 
-  // Cargar datos desde cookies al montar el componente
-  useEffect(() => {
-    setUser(getCookie("user"));
-    setMenus(getCookie("menus") || []);
-    setPermissions(getCookie("permissions") || []);
-  }, []);
+  const [user, setUser] = useState<User | null>(getCookie("user"));
+  const [menus, setMenus] = useState<MenuItem[]>(getCookie("menus") || []);
+  const [permissions, setPermissions] = useState<string[]>(
+    getCookie("permissions") || []
+  );
 
   // Función para cerrar sesión
   const logout = () => {
