@@ -22,18 +22,18 @@ export const menuItemVariant = tv({
     },
     isActive: {
       true: {
-        base: "bg-green-joinnus-2", // Only affects the base slot
+        base: "", // Only affects the base slot
       },
       false: {
-        base: "hover:bg-green-joinnus-2",
+        base: "",
       },
     },
     isExpanded: {
       true: {
-        base: "bg-white-joinnus-2",
+        base: "",
       },
       false: {
-        base: "hover:bg-white-joinnus-2",
+        base: "",
       },
     },
     isCollapsed: {

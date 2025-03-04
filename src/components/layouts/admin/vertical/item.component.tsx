@@ -1,7 +1,7 @@
 // components/MenuItemNavVertical.tsx
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import MenuListVertical from "./list.component";
 import {
   MenuItem,
@@ -13,18 +13,32 @@ const MenuItemNavVertical: React.FC<MenuItemVerticalProps> = ({
   item: initialItem,
   isCollapsed = false,
   onMenuClick,
+  activeItemId,
 }) => {
   const [item, setItem] = useState({
     ...initialItem,
     show: initialItem.show || false,
   });
 
+  const show = useMemo(
+    () => (activeItemId ? item.id === activeItemId : item.show),
+    [activeItemId, item.show, item.id]
+  );
+
+  const hasChildren = useMemo(
+    () => !!item.children && item.children.length > 0,
+    [item.children]
+  );
+  const isActive = useMemo(() => !hasChildren && show, [hasChildren, show]);
+  const isExpanded = useMemo(() => hasChildren && show, [hasChildren, show]);
+
   const handleMenuClick = () => {
-    if (item.children && item.children.length > 0) {
+    if (hasChildren) {
       if (!isCollapsed) {
         setItem((prev) => ({ ...prev, show: !prev.show }));
       }
     } else if (onMenuClick) {
+      setItem((prev) => ({ ...prev, show: !prev.show }));
       onMenuClick(item);
     }
   };
@@ -34,10 +48,6 @@ const MenuItemNavVertical: React.FC<MenuItemVerticalProps> = ({
       onMenuClick(subItem);
     }
   };
-
-  const hasChildren = !!item.children && item.children.length > 0;
-  const isActive = !hasChildren && item.show;
-  const isExpanded = hasChildren && item.show;
 
   // Generate classes for all slots
   const {
@@ -73,6 +83,7 @@ const MenuItemNavVertical: React.FC<MenuItemVerticalProps> = ({
           menu={item.children}
           isCollapsed={isCollapsed}
           onMenuClick={handleSubMenuClick}
+          activeItemId={activeItemId}
         />
       )}
     </>

@@ -17,6 +17,7 @@ const SideMenu: React.FC = () => {
   const router = useRouter();
   const { isOpenMenuMobile } = useIsOpenMenuMobile();
   const { menus: sampleMenuData } = useAuth();
+  const [activeItemId, setActiveItemId] = useState<number | null>(null);
 
   // Handle sidebar toggle
   const toggleSidebar = () => {
@@ -32,6 +33,9 @@ const SideMenu: React.FC = () => {
         // In Next.js, we use router.push for navigation
         // You'll need to adapt this based on your routing setup
         router.push(`${name}${params ? `/${params}` : ""}`);
+        setActiveItemId(item.id);
+      } else if (item.children) {
+        setActiveItemId((prev) => (prev === item.id ? null : item.id));
       }
     }
   };
@@ -63,6 +67,7 @@ const SideMenu: React.FC = () => {
             <MenuListVertical
               menu={sampleMenuData}
               isCollapsed={isCollapsed}
+              activeItemId={activeItemId}
               onMenuClick={menuClick}
             />
           </nav>
@@ -87,6 +92,7 @@ const SideMenu: React.FC = () => {
               <MenuListVertical
                 menu={sampleMenuData}
                 isCollapsed={!isOpenMenuMobile}
+                activeItemId={activeItemId}
                 onMenuClick={menuClick}
               />
             </nav>

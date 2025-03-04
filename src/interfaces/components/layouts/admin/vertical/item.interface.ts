@@ -4,6 +4,7 @@ export interface MenuItemRoute {
 }
 
 export interface MenuItem {
+  id: number;
   label: string;
   icon?: string;
   children?: MenuItem[];
@@ -15,4 +16,5 @@ export interface MenuItemVerticalProps {
   item: MenuItem;
   isCollapsed?: boolean;
   onMenuClick?: (item: MenuItem) => void;
+  activeItemId: number | null;
 }

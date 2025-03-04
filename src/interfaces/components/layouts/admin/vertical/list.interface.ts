@@ -5,4 +5,5 @@ export interface MenuListVerticalProps {
   isCollapsed?: boolean;
   onMenuClick?: (item: MenuItem) => void;
   className?: string;
+  activeItemId: number | null;
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 import { OpenMenuMobileContextValue } from "@interfaces/components/layouts/admin/vertical/openMenuMobile.interface";
 
 // Crea el contexto con undefined como valor por defecto
@@ -10,9 +10,9 @@ const MenuContext = createContext<OpenMenuMobileContextValue | undefined>(
 
 export function IsOpenMenuMobileProvider({
   children,
-}: {
+}: Readonly<{
   children: ReactNode;
-}) {
+}>) {
   const [isOpenMenuMobile, setIsOpenMenuMobile] = useState(false);
 
   // Función para alternar el estado
@@ -22,11 +22,14 @@ export function IsOpenMenuMobileProvider({
   const setMenuOpen = (state: boolean) => setIsOpenMenuMobile(state);
 
   // Valor del contexto
-  const value: OpenMenuMobileContextValue = {
-    isOpenMenuMobile,
-    toggleMenu,
-    setMenuOpen,
-  };
+  const value: OpenMenuMobileContextValue = useMemo(
+    () => ({
+      isOpenMenuMobile,
+      toggleMenu,
+      setMenuOpen,
+    }),
+    [isOpenMenuMobile, toggleMenu, setMenuOpen]
+  );
 
   return <MenuContext.Provider value={value}>{children}</MenuContext.Provider>;
 }

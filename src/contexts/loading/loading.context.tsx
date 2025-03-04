@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 import SpinnerComponent from "@components/loadings/spinner.component";
 import { LoadingContextValue } from "@interfaces/loadings/loading.interface";
 
@@ -9,7 +9,9 @@ const LoadingContext = createContext<LoadingContextValue | undefined>(
   undefined
 );
 
-export function LoadingProvider({ children }: { children: ReactNode }) {
+export function LoadingProvider({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   const [isLoading, setIsLoading] = useState(false);
 
   // Functions to control loading state
@@ -18,12 +20,15 @@ export function LoadingProvider({ children }: { children: ReactNode }) {
   const setLoading = (state: boolean) => setIsLoading(state);
 
   // Context value
-  const value: LoadingContextValue = {
-    isLoading,
-    showLoading,
-    hideLoading,
-    setLoading,
-  };
+  const value: LoadingContextValue = useMemo(
+    () => ({
+      isLoading,
+      showLoading,
+      hideLoading,
+      setLoading,
+    }),
+    [isLoading, showLoading, hideLoading, setLoading]
+  );
 
   return (
     <LoadingContext.Provider value={value}>

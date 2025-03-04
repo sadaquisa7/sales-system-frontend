@@ -1,24 +1,26 @@
 "use client";
-
-import { createContext, useContext, useState, ReactNode } from "react";
-import Cookies from "js-cookie"; // Librería para manejar cookies en el cliente
+import Cookies from "js-cookie";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 import { AuthContextValue, User } from "@interfaces/auth/auth.interface";
 import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.interface";
+import { CookieMap } from "@helpers/proccessCookie/proccessData.helper";
 
 // Crear contexto con valor inicial undefined
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-export function AuthProvider({ children }: { children: ReactNode }) {
-  // Función para obtener cookies
-  const getCookie = (name: string) => {
-    const cookie = Cookies.get(name);
-    return cookie ? JSON.parse(cookie) : null;
-  };
-
-  const [user, setUser] = useState<User | null>(getCookie("user"));
-  const [menus, setMenus] = useState<MenuItem[]>(getCookie("menus") || []);
+export function AuthProvider({
+  children,
+  cookieStoreServer,
+}: Readonly<{
+  children: ReactNode;
+  cookieStoreServer: CookieMap;
+}>) {
+  const [user, setUser] = useState<User | null>(cookieStoreServer.user || null);
+  const [menus, setMenus] = useState<MenuItem[]>(
+    (cookieStoreServer.menus as MenuItem[]) || []
+  );
   const [permissions, setPermissions] = useState<string[]>(
-    getCookie("permissions") || []
+    cookieStoreServer.permissions || []
   );
 
   // Función para cerrar sesión
@@ -32,15 +34,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   // Valor del contexto
-  const value: AuthContextValue = {
-    user,
-    menus,
-    permissions,
-    setUser,
-    setMenus,
-    setPermissions,
-    logout,
-  };
+  const value: AuthContextValue = useMemo(
+    () => ({
+      user,
+      menus,
+      permissions,
+      setUser,
+      setMenus,
+      setPermissions,
+      logout,
+    }),
+    [user, menus, permissions, setUser, setMenus, setPermissions, logout]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

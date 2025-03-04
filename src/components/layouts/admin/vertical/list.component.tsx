@@ -1,3 +1,4 @@
+// components/MenuListVertical.tsx
 import MenuItemVertical from "./item.component";
 import { MenuListVerticalProps } from "@interfaces/components/layouts/admin/vertical/list.interface";
 import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.interface";
@@ -6,6 +7,7 @@ const MenuListVertical: React.FC<MenuListVerticalProps> = ({
   isCollapsed = false,
   onMenuClick,
   className,
+  activeItemId,
 }) => {
   const handleMenuClick = (item: MenuItem) => {
     if (onMenuClick) {
@@ -20,6 +22,7 @@ const MenuListVertical: React.FC<MenuListVerticalProps> = ({
           key={index}
           item={item}
           isCollapsed={isCollapsed}
+          activeItemId={activeItemId}
           onMenuClick={handleMenuClick}
         />
       ))}

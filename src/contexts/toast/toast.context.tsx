@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo } from "react";
 import {
   ToastContextValue,
   Toast,
@@ -10,7 +10,7 @@ import {
 // Crear el contexto con un valor por defecto vacío
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
 
-export function ToastProvider({ children }: { children: ReactNode }) {
+export function ToastProvider({ children }: Readonly<{ children: ReactNode }>) {
   const [toasts, setToasts] = useState<Toast[]>([]);
 
   // Función interna para agregar un toast
@@ -97,16 +97,19 @@ export function ToastProvider({ children }: { children: ReactNode }) {
     });
 
   // Valor del contexto
-  const value: ToastContextValue = {
-    toasts,
-    success,
-    info,
-    warn,
-    error,
-    secondary,
-    contrast,
-    removeToast,
-  };
+  const value: ToastContextValue = useMemo(
+    () => ({
+      toasts,
+      success,
+      info,
+      warn,
+      error,
+      secondary,
+      contrast,
+      removeToast,
+    }),
+    [toasts, success, info, warn, error, secondary, contrast, removeToast]
+  );
 
   return (
     <ToastContext.Provider value={value}>{children}</ToastContext.Provider>
