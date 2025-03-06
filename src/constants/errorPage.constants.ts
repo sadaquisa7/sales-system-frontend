@@ -6,38 +6,38 @@ import {
 
 export const errorData: ErrorData = {
   400: {
-    img: "https://cdn.joinnus.com/files/ticket-404.svg",
+    img: "/img/error/error-404.svg",
     status: 400,
     message: "¡Ocurrió un error en la petición!",
     description: "No te preocupes, te regresaremos a la principal.",
   },
   403: {
-    img: "https://cdn.joinnus.com/files/ticket-404.svg",
+    img: "/img/error/error-404.svg",
     status: 403,
     message: "¡No estás autorizado para acceder a este recurso!",
     description: "No te preocupes, te regresaremos a la principal.",
   },
   404: {
-    img: "https://cdn.joinnus.com/files/ticket-404.svg",
+    img: "/img/error/error-404.svg",
     status: 404,
     message: "¡Página no encontrada!",
     description: "No te preocupes, te regresaremos a la principal.",
   },
   500: {
-    img: "https://cdn.joinnus.com/files/ticket-500.svg",
+    img: "/img/error/error-500.svg",
     status: 500,
     message: "Parece que algo salió mal...",
     description:
       "Intenta de nuevo en unos minutos. Si el problema continúa, contacta al área de TI.",
   },
   502: {
-    img: "https://cdn.joinnus.com/files/ticket-502.svg",
+    img: "/img/error/error-502.svg",
     status: 502,
     message: "Tenemos un problema...",
     description: "Puedes volver un paso atrás e intentar de nuevo más tarde.",
   },
   503: {
-    img: "https://cdn.joinnus.com/files/ticket-503.svg",
+    img: "/img/error/error-503.svg",
     status: 503,
     message: "Estamos trabajando.",
     description: "Estamos realizando mejoras. Intenta de nuevo más tarde.",

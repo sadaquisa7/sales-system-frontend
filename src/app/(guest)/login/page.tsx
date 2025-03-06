@@ -1,4 +1,4 @@
-import LoginComponent from "@templates/login/page";
+import LoginComponent from "@/templates/login";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
