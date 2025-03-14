@@ -25,6 +25,10 @@ export default function TopNav() {
     console.log("handleUserClick ==>", item);
     if (item.key === "logout") {
       await logoutLayout();
+    } else if (item.key === "configuration") {
+      router.push("/profile/config");
+    } else if (item.key === "profile") {
+      router.push("/profile");
     }
   };
 

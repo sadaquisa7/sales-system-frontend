@@ -32,8 +32,8 @@ export async function middleware(request: NextRequest) {
 
   const cookieData: CookieData = {
     user: {
+      ...user,
       ...generateUsername(user.first_name, user.last_name),
-      email: user.email,
     },
     menus,
     permissions,

@@ -70,19 +70,19 @@ const ButtonRenderer: React.FC<{
 
   return <ButtonFormComponent {...buttonProps} />;
 };
-const FormComponent = <T extends Record<string, any>>({
+const FormComponent = <T extends Record<string, any>, Response = undefined>({
   config,
   schema,
 }: {
   config: FormConfig;
-  schema?: z.ZodObject<any>;
+  schema?: z.ZodObject<any> | z.ZodEffects<z.ZodObject<any>>;
 }) => {
   const router = useRouter();
   const { success, error } = useToast();
   const { showLoading, hideLoading } = useLoading();
 
-  const initialState = config.sections.reduce(
-    (acc: Partial<T>, section: FormSection) => {
+  const initialState = Object.values(config.sections.items || {}).reduce(
+    (acc: Partial<T>, section) => {
       section.fields.forEach((field) => {
         (acc as Record<string, ValueComponent>)[field.name] =
           getDefaultValue(field);
@@ -100,7 +100,7 @@ const FormComponent = <T extends Record<string, any>>({
     setErrors((prev) => ({ ...prev, [fieldName]: [] }));
   };
 
-  const handleButtonClick = (
+  const handleButtonClick = async (
     button: FormButton & { onClick?: (formData: T) => void }
   ) => {
     switch (button.action) {
@@ -110,7 +110,12 @@ const FormComponent = <T extends Record<string, any>>({
         }
         break;
       case "button":
-        button.onClick?.(formData);
+        if (button.onClick) {
+          const validationResult = await validateForm(formData);
+          if (validationResult.isValid && validationResult.validatedData) {
+            button.onClick(validationResult.validatedData);
+          }
+        }
         break;
     }
   };
@@ -118,44 +123,96 @@ const FormComponent = <T extends Record<string, any>>({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (schema) {
-      const result = schema.safeParse(formData);
-      if (!result.success) {
-        const fieldErrors: Record<string, string[]> = {};
-        result.error.errors.forEach((err) => {
-          const fieldName = err.path[0]?.toString();
-          if (fieldName) {
-            if (!fieldErrors[fieldName]) {
-              fieldErrors[fieldName] = [];
-            }
-            fieldErrors[fieldName].push(err.message);
-          }
-        });
-        setErrors(fieldErrors);
+      const validationResult = await validateForm(formData);
+      if (!validationResult.isValid || !validationResult.validatedData) {
         return;
       }
-      console.log("Form data is valid:", result.data);
+
       if (!(config.info && config.info.service)) {
         return false;
       }
       showLoading();
       try {
-        const response: ApiResponse = await config.info.service(result.data);
+        const response: ApiResponse<Response> = await config.info.service(
+          validationResult.validatedData
+        );
         console.log("Response from service:", response);
         const { message, status } = response;
         if (status) {
           success(message);
+          config.info.onSuccess?.(response);
         } else {
           error(message);
+          config.info.onError?.(response);
         }
       } catch (e) {
         console.error("Error calling service:", e);
         error("An unexpected error occurred");
+        config.info.onError?.(e);
       } finally {
         hideLoading();
       }
     } else {
       console.log("Form submitted without schema validation:", formData);
     }
+  };
+
+  // Reusable validation function
+  const validateForm = async (
+    data: T
+  ): Promise<{ isValid: boolean; validatedData?: T }> => {
+    if (!schema) {
+      return { isValid: true, validatedData: data };
+    }
+
+    // Call onBeforeValidation if it exists and await its result
+    if (config.info.onBeforeValidation) {
+      const shouldProceed = await config.info.onBeforeValidation(data);
+      if (shouldProceed !== true) {
+        console.log("Validation halted by onBeforeValidation");
+        return { isValid: false };
+      }
+    }
+
+    const result = schema.safeParse(data);
+
+    if (!result.success) {
+      const fieldErrors: Record<string, string[]> = {};
+      result.error.errors.forEach((err) => {
+        const fieldName = err.path[0]?.toString();
+        if (fieldName) {
+          if (!fieldErrors[fieldName]) {
+            fieldErrors[fieldName] = [];
+          }
+          fieldErrors[fieldName].push(err.message);
+        }
+      });
+      setErrors(fieldErrors);
+
+      // Call onAfterValidation if it exists and await its result
+      if (config.info.onAfterValidation) {
+        const shouldContinue = await config.info.onAfterValidation(
+          data,
+          fieldErrors
+        );
+        if (shouldContinue !== true) {
+          console.log("Validation halted by onAfterValidation");
+          return { isValid: false };
+        }
+      }
+      return { isValid: false };
+    }
+
+    // Call onAfterValidation for successful validation
+    if (config.info.onAfterValidation) {
+      const shouldContinue = await config.info.onAfterValidation(data, {});
+      if (shouldContinue !== true) {
+        console.log("Validation halted by onAfterValidation");
+        return { isValid: false };
+      }
+    }
+
+    return { isValid: true, validatedData: result.data as T };
   };
 
   return (
@@ -168,20 +225,32 @@ const FormComponent = <T extends Record<string, any>>({
         </h1>
       )}
       <form onSubmit={handleSubmit}>
-        {config.sections.map((section, index) => (
-          <div key={index} className={section.className}>
-            {section.fields.map((field) => (
-              <div key={field.name} className={field.className}>
-                <FieldRenderer
-                  field={field}
-                  value={formData[field.name]}
-                  onChange={handleFieldChange}
-                  errors={errors[field.name]}
-                />
-              </div>
-            ))}
-          </div>
-        ))}
+        <div className={config.sections.config?.className || ""}>
+          {config.sections.items &&
+            Object.entries(config.sections.items).map(
+              ([sectionKey, section]) => (
+                <div key={sectionKey} className={section.className?.container}>
+                  {section.title?.value && (
+                    <h2 className={section.title.className}>
+                      {section.title.value}
+                    </h2>
+                  )}
+                  <div className={section.className?.items}>
+                    {section.fields.map((field) => (
+                      <div key={field.name} className={field.className}>
+                        <FieldRenderer
+                          field={field}
+                          value={formData[field.name]}
+                          onChange={handleFieldChange}
+                          errors={errors[field.name]}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            )}
+        </div>
         <div className={config.buttons.className}>
           {config.buttons.items.map((button, index) => (
             <ButtonRenderer

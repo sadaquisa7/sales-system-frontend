@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Tipos básicos para los campos del formulario
 import { ApiResponse } from "@interfaces/axios/axio.interface";
+import { classNames } from "primereact/utils";
 
 export interface FormField {
   type:
@@ -29,10 +30,15 @@ export interface FormButton {
   props?: Record<string, any>;
 }
 
-// Tipo para una sección del formulario
+export interface ClassNamesSections {
+  items?: string;
+  container?: string;
+}
+
 export interface FormSection {
-  className: string; // Clases CSS para la sección
-  fields: FormField[]; // Array de campos en esta sección
+  title?: FormTitle; // Optional title with value and className
+  className?: ClassNamesSections;
+  fields: FormField[]; // Required array of fields (renamed from fields to items)
 }
 
 export interface FormTitle {
@@ -44,8 +50,19 @@ export interface FormTitle {
 export interface FormInfo<T = any, U = any> {
   title?: FormTitle; // Título del formulario
   service?: (data?: T) => Promise<ApiResponse<U>>;
+  onSuccess?: (response: ApiResponse<U>) => void;
+  onError?: (error: any) => void;
+  onBeforeValidation?: (
+    formData: T
+  ) => Promise<boolean | undefined | null> | boolean | undefined | null;
+  onAfterValidation?: (
+    formData: T,
+    errors: Record<string, string[]>
+  ) => Promise<boolean | undefined | null> | boolean | undefined | null;
 }
-
+export interface SectionsConfig {
+  className?: string;
+}
 // Tipo para el grupo de botones
 export interface FormButtons {
   className?: string; // Clases CSS para el contenedor de botones
@@ -55,7 +72,10 @@ export interface FormButtons {
 // Tipo principal para la configuración del formulario
 export interface FormConfig {
   info: FormInfo;
-  sections: FormSection[];
+  sections: {
+    config?: SectionsConfig;
+    items?: Record<string, FormSection>;
+  };
   buttons: FormButtons;
 }
 

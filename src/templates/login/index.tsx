@@ -2,51 +2,31 @@
 import FormComponent from "@components/dynamic/forms/form";
 import { NewForm, FormSchema } from "@validations/login/login.validation";
 import { ConfigForm } from "@configs/forms/login/login.config";
-import { authService } from "@/services/auth/auth.service";
-import { useToast } from "@contexts/toast/toast.context";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
-import { useLoading } from "@contexts/loading/loading.context";
 import { LoginResponse } from "@/interfaces/services/auth/login.interface";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 export default function LoginComponent() {
   const router = useRouter();
-  const { success, error } = useToast();
-  const { showLoading, hideLoading } = useLoading();
   const NAME_SESSION =
     process.env.NEXT_PUBLIC_COOKIE_NAME_SESSION || "session_token";
-  const login = async (form: NewForm) => {
-    showLoading();
-    try {
-      const response: ApiResponse<LoginResponse> = await authService.login(
-        form
-      );
-      const { message, status, data } = response;
-      if (status && data) {
-        const { access_token, expires_at } = data;
-        Cookies.set(NAME_SESSION, access_token, { expires: expires_at });
-        success(message);
-        router.push("/");
-      } else {
-        error(message);
-      }
-    } catch (e) {
-      console.error("Error calling service:", e);
-      error("An unexpected error occurred");
-    } finally {
-      hideLoading();
+  const onSuccess = (response: ApiResponse<LoginResponse>) => {
+    const { data } = response;
+    if (data) {
+      const { access_token, expires_at } = data;
+      Cookies.set(NAME_SESSION, access_token, { expires: expires_at });
+      router.push("/");
     }
   };
-
-  ConfigForm.buttons.items.forEach((button) => {
-    button.onClick = login;
-  });
-
+  ConfigForm.info.onSuccess = onSuccess;
   return (
     <div className="flex min-h-screen flex-col justify-center">
       <div className="sm:mx-auto sm:w-full sm:max-w-lg">
-        <FormComponent<NewForm> config={ConfigForm} schema={FormSchema} />
+        <FormComponent<NewForm, LoginResponse>
+          config={ConfigForm}
+          schema={FormSchema}
+        />
       </div>
     </div>
   );

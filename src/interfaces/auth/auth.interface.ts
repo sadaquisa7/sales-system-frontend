@@ -3,6 +3,9 @@ export interface User {
   username?: string;
   abbreviation?: string;
   email: string;
+  last_name: string;
+  first_name: string;
+  id: number;
 }
 
 export interface AuthContextValue {

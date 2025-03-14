@@ -1,4 +1,5 @@
 import { FormConfig } from "@/interfaces/components/dynamic/forms/form.interface";
+import { authService } from "@/services/auth/auth.service";
 
 export const ConfigForm: FormConfig = {
   info: {
@@ -6,32 +7,37 @@ export const ConfigForm: FormConfig = {
       value: "Iniciar Sesión",
       className: "text-center text-2xl font-bold tracking-tight text-gray-900",
     },
+    service: authService.login,
   },
-  sections: [
-    {
-      className: "gap-4 grid",
-      fields: [
-        {
-          type: "input_text",
-          name: "email",
-          label: "Correo",
-          props: {
-            required: true,
-          },
+  sections: {
+    items: {
+      login: {
+        className: {
+          items: "gap-4 grid",
         },
-        {
-          type: "input_password",
-          name: "password",
-          label: "Contraseña",
-          props: {
-            required: true,
-            toggleMask: true,
-            feedback: false,
+        fields: [
+          {
+            type: "input_text",
+            name: "email",
+            label: "Correo",
+            props: {
+              required: true,
+            },
           },
-        },
-      ],
+          {
+            type: "input_password",
+            name: "password",
+            label: "Contraseña",
+            props: {
+              required: true,
+              toggleMask: true,
+              feedback: false,
+            },
+          },
+        ],
+      },
     },
-  ],
+  },
   buttons: {
     className: "mt-5",
     items: [
@@ -39,7 +45,7 @@ export const ConfigForm: FormConfig = {
         label: "Iniciar Sesión",
         action: "button",
         props: {
-          type: "button",
+          type: "submit",
           className: "w-full",
         },
       },
