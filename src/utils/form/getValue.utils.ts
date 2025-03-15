@@ -40,3 +40,19 @@ export const extractValue = (type: string, event: any): ValueComponent => {
       return "";
   }
 };
+
+// Utility to extract event value
+export const getErrors = (errors: any): Record<string, string[]> => {
+  const fieldErrors: Record<string, string[]> = {};
+  errors.forEach((err: any) => {
+    const fieldName = err.path[0]?.toString();
+    if (fieldName) {
+      if (!fieldErrors[fieldName]) {
+        fieldErrors[fieldName] = [];
+      }
+      fieldErrors[fieldName].push(err.message);
+    }
+  });
+
+  return fieldErrors;
+};

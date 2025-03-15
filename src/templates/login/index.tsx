@@ -19,7 +19,9 @@ export default function LoginComponent() {
       router.push("/");
     }
   };
-  ConfigForm.info.onSuccess = onSuccess;
+  if (ConfigForm.info) {
+    ConfigForm.info.onSuccess = onSuccess;
+  }
   return (
     <div className="flex min-h-screen flex-col justify-center">
       <div className="sm:mx-auto sm:w-full sm:max-w-lg">

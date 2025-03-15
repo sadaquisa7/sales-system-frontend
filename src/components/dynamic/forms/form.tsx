@@ -15,11 +15,14 @@ import {
   FormConfig,
   FormField,
   FormButton,
-  FormSection,
   ValueComponent,
 } from "@/interfaces/components/dynamic/forms/form.interface";
 import { FIELD_TYPES } from "@constants/form.constants";
-import { extractValue, getDefaultValue } from "@/utils/form/getValue.utils";
+import {
+  extractValue,
+  getDefaultValue,
+  getErrors,
+} from "@/utils/form/getValue.utils";
 import { z } from "zod";
 import { useToast } from "@contexts/toast/toast.context";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
@@ -166,7 +169,7 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
     }
 
     // Call onBeforeValidation if it exists and await its result
-    if (config.info.onBeforeValidation) {
+    if (config?.info?.onBeforeValidation) {
       const shouldProceed = await config.info.onBeforeValidation(data);
       if (shouldProceed !== true) {
         console.log("Validation halted by onBeforeValidation");
@@ -175,37 +178,32 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
     }
 
     const result = schema.safeParse(data);
+    let fieldErrors: Record<string, string[]> = {};
 
     if (!result.success) {
-      const fieldErrors: Record<string, string[]> = {};
-      result.error.errors.forEach((err) => {
-        const fieldName = err.path[0]?.toString();
-        if (fieldName) {
-          if (!fieldErrors[fieldName]) {
-            fieldErrors[fieldName] = [];
-          }
-          fieldErrors[fieldName].push(err.message);
-        }
-      });
+      fieldErrors = getErrors(result.error.errors);
       setErrors(fieldErrors);
 
       // Call onAfterValidation if it exists and await its result
-      if (config.info.onAfterValidation) {
-        const shouldContinue = await config.info.onAfterValidation(
-          data,
-          fieldErrors
-        );
-        if (shouldContinue !== true) {
-          console.log("Validation halted by onAfterValidation");
-          return { isValid: false };
-        }
-      }
+      // if (config.info.onAfterValidation) {
+      //   const shouldContinue = await config.info.onAfterValidation(
+      //     data,
+      //     fieldErrors
+      //   );
+      //   if (shouldContinue !== true) {
+      //     console.log("Validation halted by onAfterValidation");
+      //     return { isValid: false };
+      //   }
+      // }
       return { isValid: false };
     }
 
     // Call onAfterValidation for successful validation
-    if (config.info.onAfterValidation) {
-      const shouldContinue = await config.info.onAfterValidation(data, {});
+    if (config?.info?.onAfterValidation) {
+      const shouldContinue = await config.info.onAfterValidation(
+        data,
+        fieldErrors
+      );
       if (shouldContinue !== true) {
         console.log("Validation halted by onAfterValidation");
         return { isValid: false };
@@ -217,7 +215,7 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
 
   return (
     <>
-      {config.info.title?.value && (
+      {config?.info?.title?.value && (
         <h1
           className={config.info.title.className || "text-2xl font-bold mb-4"}
         >
@@ -251,15 +249,17 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
               )
             )}
         </div>
-        <div className={config.buttons.className}>
-          {config.buttons.items.map((button, index) => (
-            <ButtonRenderer
-              key={index}
-              button={button}
-              onClick={handleButtonClick}
-            />
-          ))}
-        </div>
+        {config.buttons && config.buttons?.items?.length > 0 && (
+          <div className={config.buttons.className}>
+            {config.buttons.items.map((button, index) => (
+              <ButtonRenderer
+                key={index}
+                button={button}
+                onClick={handleButtonClick}
+              />
+            ))}
+          </div>
+        )}
       </form>
     </>
   );

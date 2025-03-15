@@ -1,4 +1,3 @@
-import ToastComponent from "@components/form/toasts/toast.component";
 import type { Metadata } from "next";
 import "./globals.css";
 import { PrimeReactProvider } from "primereact/api";
@@ -32,10 +31,7 @@ export default function RootLayout({
       <body>
         <PrimeReactProvider>
           <ToastProvider>
-            <LoadingProvider>
-              <ToastComponent />
-              {children}
-            </LoadingProvider>
+            <LoadingProvider>{children}</LoadingProvider>
           </ToastProvider>
         </PrimeReactProvider>
       </body>

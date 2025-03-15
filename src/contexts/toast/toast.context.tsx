@@ -6,6 +6,7 @@ import {
   Toast,
   TOAST_DETAIL,
 } from "@interfaces/components/form/toasts/toast.interface";
+import ToastComponent from "@components/form/toasts/toast.component";
 
 // Crear el contexto con un valor por defecto vacío
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);
@@ -112,7 +113,10 @@ export function ToastProvider({ children }: Readonly<{ children: ReactNode }>) {
   );
 
   return (
-    <ToastContext.Provider value={value}>{children}</ToastContext.Provider>
+    <ToastContext.Provider value={value}>
+      <ToastComponent />
+      {children}
+    </ToastContext.Provider>
   );
 }
 

@@ -71,12 +71,12 @@ export interface FormButtons {
 
 // Tipo principal para la configuración del formulario
 export interface FormConfig {
-  info: FormInfo;
+  info?: FormInfo;
   sections: {
     config?: SectionsConfig;
     items?: Record<string, FormSection>;
   };
-  buttons: FormButtons;
+  buttons?: FormButtons;
 }
 
 // Tipo para el estado del formulario (usado internamente)
@@ -95,3 +95,7 @@ export type ValueComponent =
   | null
   | boolean
   | (string | number | object | boolean | null)[];
+
+export interface FormHandle {
+  submitForm: () => Promise<void>;
+}
