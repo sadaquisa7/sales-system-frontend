@@ -2,7 +2,7 @@ import { FormConfig } from "@/interfaces/components/dynamic/forms/form.interface
 import { User } from "@interfaces/auth/auth.interface";
 import { authService } from "@/services/auth/auth.service";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
-
+import { numberSessions } from "@constants/sessions.constants";
 export const ConfigForm = <T>(
   user: User | null,
   onAfterValidation: () =>
@@ -52,7 +52,7 @@ export const ConfigForm = <T>(
             type: "input_text",
             name: "first_name",
             label: "Nombres",
-            className: "lg:col-span-6 col-span-12",
+            className: "lg:col-span-5 col-span-12",
             defaultValue: user?.first_name,
             props: {
               required: true,
@@ -63,9 +63,22 @@ export const ConfigForm = <T>(
             name: "last_name",
             label: "Apellidos",
             defaultValue: user?.last_name,
-            className: "lg:col-span-6 col-span-12",
+            className: "lg:col-span-5 col-span-12",
             props: {
               required: true,
+            },
+          },
+          {
+            type: "select_simple",
+            name: "max_active_sessions",
+            label: "Cantidad de sessiones abiertos",
+            defaultValue: user?.max_active_sessions,
+            className: "lg:col-span-2 col-span-12",
+            props: {
+              required: true,
+              id: "max_active_sessions",
+              filter: false,
+              options: numberSessions,
             },
           },
         ],

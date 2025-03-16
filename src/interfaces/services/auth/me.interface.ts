@@ -1,27 +1,4 @@
-interface User {
-  id: number;
-  state: number;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string | null;
-  first_name: string;
-  last_name: string;
-  email: string;
-  permissions: string[];
-  roles: Role[];
-}
-
-interface Role {
-  id: number;
-  state: number;
-  created_at: string;
-  updated_at: string;
-  deleted_at: string | null;
-  name: string;
-  code: string;
-  description: string;
-}
-
+import { User } from "@interfaces/services/user/user.interface";
 interface Menu {
   label: string;
   route: string | null;

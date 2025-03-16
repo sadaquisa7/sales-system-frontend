@@ -4,8 +4,8 @@ import { ApiResponse } from "@interfaces/axios/axio.interface";
 import {
   LoginRequest,
   LoginResponse,
-  UserRequest,
 } from "@interfaces/services/auth/login.interface";
+import { User } from "@interfaces/services/user/user.interface";
 import { MeResponse } from "@interfaces/services/auth/me.interface";
 const baseUrl = "/auth";
 
@@ -49,16 +49,17 @@ export const authService = {
   },
 
   updateProfile: async (
-    user: UserRequest
-  ): Promise<ApiResponse<UserRequest>> => {
-    const body: UserRequest = {
+    user: Partial<User>
+  ): Promise<ApiResponse<Partial<User>>> => {
+    const body: Partial<User> = {
       last_name: user.last_name,
       first_name: user.first_name,
+      max_active_sessions: user.max_active_sessions,
     };
     if (user.password) {
       body.password = user.password;
     }
-    const response: ApiResponse<UserRequest> = await salesApi.put(
+    const response: ApiResponse<Partial<User>> = await salesApi.put(
       `${baseUrl}/update-profile`,
       body
     );

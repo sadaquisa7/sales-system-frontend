@@ -23,6 +23,11 @@ export const FormSchema = z
       .min(6, "La confirmación de contraseña debe tener al menos 6 caracteres")
       .optional()
       .or(z.literal("")),
+    max_active_sessions: z
+      .number()
+      .min(1, "Debe ser al menos 1")
+      .max(10, "No puede ser mayor a 10")
+      .int("Debe ser un número entero"),
   })
   .refine(
     (data) => {
