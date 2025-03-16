@@ -61,5 +61,5 @@ export interface DialogComponentProps {
   transitionOptions?: CSSTransitionProps;
   unstyled?: boolean;
   visible?: boolean;
-  onHide?: () => void;
+  onHide: () => void;
 }

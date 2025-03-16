@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ButtonFormComponent from "@/components/form/buttons/button.component";
 import InputTextFormComponent from "@/components/form/inputs/inputText.component";
@@ -83,6 +83,7 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
   const router = useRouter();
   const { success, error } = useToast();
   const { showLoading, hideLoading } = useLoading();
+  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const initialState = Object.values(config.sections.items || {}).reduce(
     (acc: Partial<T>, section) => {
@@ -96,7 +97,6 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
   ) as T;
 
   const [formData, setFormData] = useState<T>(initialState);
-  const [errors, setErrors] = useState<Record<string, string[]>>({});
 
   const handleFieldChange = (fieldName: string, value: ValueComponent) => {
     setFormData((prev) => ({ ...prev, [fieldName]: value } as T));
@@ -113,18 +113,24 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
         }
         break;
       case "button":
-        if (button.onClick) {
-          const validationResult = await validateForm(formData);
-          if (validationResult.isValid && validationResult.validatedData) {
-            button.onClick(validationResult.validatedData);
-          }
+        if (!button.onClick) return;
+
+        if (!button.isValidate) {
+          button.onClick(formData);
+          return;
+        }
+
+        const validationResult = await validateForm(formData);
+        if (validationResult.isValid && validationResult.validatedData) {
+          button.onClick(validationResult.validatedData);
         }
         break;
     }
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: React.FormEvent) => {
+    e?.preventDefault();
+
     if (schema) {
       const validationResult = await validateForm(formData);
       if (!validationResult.isValid || !validationResult.validatedData) {
@@ -183,18 +189,6 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
     if (!result.success) {
       fieldErrors = getErrors(result.error.errors);
       setErrors(fieldErrors);
-
-      // Call onAfterValidation if it exists and await its result
-      // if (config.info.onAfterValidation) {
-      //   const shouldContinue = await config.info.onAfterValidation(
-      //     data,
-      //     fieldErrors
-      //   );
-      //   if (shouldContinue !== true) {
-      //     console.log("Validation halted by onAfterValidation");
-      //     return { isValid: false };
-      //   }
-      // }
       return { isValid: false };
     }
 

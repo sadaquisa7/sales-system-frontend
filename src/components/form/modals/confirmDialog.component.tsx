@@ -2,6 +2,7 @@
 
 import { ConfirmDialog } from "primereact/confirmdialog";
 import { ConfirmDialogComponentProps } from "@interfaces/components/form/modals/confirmDialog.interface";
+import { useState, useEffect } from "react";
 
 const propsDefault: ConfirmDialogComponentProps = {
   accept: () => {},
@@ -47,8 +48,13 @@ const ConfirmDialogComponent: React.FC<ConfirmDialogComponentProps> = (
   propsCurrent
 ) => {
   const props = { ...propsDefault, ...propsCurrent };
+  const [visible, setVisible] = useState(props.visible);
 
-  if (!props.visible) return null;
+  useEffect(() => {
+    setVisible(props.visible);
+  }, [props.visible]);
+
+  if (!visible) return null;
 
   return (
     <ConfirmDialog
@@ -103,7 +109,7 @@ const ConfirmDialogComponent: React.FC<ConfirmDialogComponentProps> = (
       tagKey={props.tagKey}
       transitionOptions={props.transitionOptions}
       unstyled={props.unstyled}
-      visible={props.visible}
+      visible={visible}
       onHide={props.onHide}
       onShow={props.onShow}
     >

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 // Tipos básicos para los campos del formulario
 import { ApiResponse } from "@interfaces/axios/axio.interface";
-import { classNames } from "primereact/utils";
 
 export interface FormField {
   type:
@@ -27,6 +26,7 @@ export interface FormButton {
   action: "redirect" | "button"; // Tipo de acción del botón
   url?: string; // Opcional, requerido solo para "redirect"
   onClick?: (formData: any) => void; // Opcional, requerido solo para "button"
+  isValidate?: boolean;
   props?: Record<string, any>;
 }
 
@@ -95,7 +95,3 @@ export type ValueComponent =
   | null
   | boolean
   | (string | number | object | boolean | null)[];
-
-export interface FormHandle {
-  submitForm: () => Promise<void>;
-}

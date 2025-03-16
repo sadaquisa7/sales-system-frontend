@@ -4,6 +4,7 @@ import { ApiResponse } from "@interfaces/axios/axio.interface";
 import {
   LoginRequest,
   LoginResponse,
+  UserRequest,
 } from "@interfaces/services/auth/login.interface";
 import { MeResponse } from "@interfaces/services/auth/me.interface";
 const baseUrl = "/auth";
@@ -43,6 +44,31 @@ export const authService = {
   refreshToken: async (): Promise<ApiResponse<LoginResponse>> => {
     const response: ApiResponse<LoginResponse> = await salesApi.get(
       `${baseUrl}/refresh-token`
+    );
+    return response;
+  },
+
+  updateProfile: async (
+    user: UserRequest
+  ): Promise<ApiResponse<UserRequest>> => {
+    const body: UserRequest = {
+      last_name: user.last_name,
+      first_name: user.first_name,
+    };
+    if (user.password) {
+      body.password = user.password;
+    }
+    const response: ApiResponse<UserRequest> = await salesApi.put(
+      `${baseUrl}/update-profile`,
+      body
+    );
+    return response;
+  },
+
+  verifyPassword: async (form: Partial<LoginRequest>): Promise<ApiResponse> => {
+    const response: ApiResponse = await salesApi.post(
+      `${baseUrl}/verify-password`,
+      form
     );
     return response;
   },

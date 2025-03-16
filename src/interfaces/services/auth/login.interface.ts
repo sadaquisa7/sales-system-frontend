@@ -7,3 +7,9 @@ export interface LoginRequest {
   email: string;
   password: string;
 }
+
+export interface UserRequest {
+  last_name: string;
+  first_name: string;
+  password?: string;
+}

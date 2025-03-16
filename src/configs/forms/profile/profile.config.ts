@@ -1,15 +1,26 @@
 import { FormConfig } from "@/interfaces/components/dynamic/forms/form.interface";
 import { User } from "@interfaces/auth/auth.interface";
+import { authService } from "@/services/auth/auth.service";
+import { ApiResponse } from "@interfaces/axios/axio.interface";
 
-export const ConfigForm = (user: User | null): FormConfig => ({
+export const ConfigForm = <T>(
+  user: User | null,
+  onAfterValidation: () =>
+    | Promise<boolean | undefined | null>
+    | boolean
+    | undefined
+    | null,
+  onSuccess: (response: ApiResponse<T>) => void
+): FormConfig => ({
   info: {
     title: {
       value: "Perfil",
       className:
         "text-5xl mb-2 text-center uppercase font-bold tracking-tight text-gray-900",
     },
-    onSuccess: (response) => console.log("Success:", response),
-    onError: (error) => console.log("Error:", error),
+    service: authService.updateProfile,
+    onAfterValidation,
+    onSuccess,
   },
   sections: {
     config: {

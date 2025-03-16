@@ -34,6 +34,7 @@ const propsDefault: DialogComponentProps = {
   showHeader: true,
   unstyled: false,
   visible: false,
+  onHide: () => {},
 };
 
 const DialogComponent: React.FC<DialogComponentProps> = (propsCurrent) => {
@@ -89,10 +90,7 @@ const DialogComponent: React.FC<DialogComponentProps> = (propsCurrent) => {
       transitionOptions={props.transitionOptions}
       unstyled={props.unstyled}
       visible={visible}
-      onHide={() => {
-        if (!visible) return;
-        setVisible(false);
-      }}
+      onHide={props.onHide}
     >
       {props.children}
     </Dialog>

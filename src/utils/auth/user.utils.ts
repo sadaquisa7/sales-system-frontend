@@ -1,7 +1,7 @@
 export const generateUsername = (firstName: string, lastName: string) => {
   const normalize = (name: string) => name?.trim().toLowerCase() || "";
 
-  const first = normalize(firstName);
+  const first = normalize(firstName).split(" ")[0] || "";
   const last = normalize(lastName).split(" ")[0] || "";
 
   if (!first && !last) return { username: "", abbreviation: "" };

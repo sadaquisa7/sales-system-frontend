@@ -33,6 +33,7 @@ const ConfirmationModal = forwardRef((_props, ref) => {
       icon="pi pi-exclamation-triangle"
       accept={accept}
       reject={reject}
+      onHide={() => setVisible(false)}
     />
   );
 });

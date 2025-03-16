@@ -66,6 +66,6 @@ export interface ConfirmDialogComponentProps {
   transitionOptions?: any;
   unstyled?: boolean;
   visible?: boolean;
-  onHide?: () => void;
+  onHide: () => void;
   onShow?: () => void;
 }
