@@ -7,7 +7,7 @@ import ModalConfirmation from "./modals/Confirmation";
 import ModalVerifyPassword from "./modals/VerifyPassword";
 import { useRef } from "react";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
-import { UserRequest } from "@interfaces/services/auth/login.interface";
+import { User } from "@interfaces/services/user/user.interface";
 import { generateUsername } from "@utils/auth/user.utils";
 
 export default function ProfileComponent() {
@@ -26,7 +26,7 @@ export default function ProfileComponent() {
     return false;
   };
 
-  const onSuccess = (response: ApiResponse<UserRequest>) => {
+  const onSuccess = (response: ApiResponse<User>) => {
     const { data } = response;
     if (data && user) {
       const updatedUser = {
@@ -38,11 +38,7 @@ export default function ProfileComponent() {
       setUser(updatedUser);
     }
   };
-  const configForm = ConfigForm<UserRequest>(
-    user,
-    onAfterValidation,
-    onSuccess
-  );
+  const configForm = ConfigForm<User>(user, onAfterValidation, onSuccess);
   return (
     <>
       <FormComponent<NewForm> config={configForm} schema={FormSchema} />
