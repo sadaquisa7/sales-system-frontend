@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ButtonFormComponent from "@/components/form/buttons/button.component";
 import InputTextFormComponent from "@/components/form/inputs/inputText.component";
@@ -137,7 +137,7 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
         return;
       }
 
-      if (!(config.info && config.info.service)) {
+      if (!config?.info?.service) {
         return false;
       }
       showLoading();
@@ -145,7 +145,6 @@ const FormComponent = <T extends Record<string, any>, Response = undefined>({
         const response: ApiResponse<Response> = await config.info.service(
           validationResult.validatedData
         );
-        console.log("Response from service:", response);
         const { message, status } = response;
         if (status) {
           success(message);

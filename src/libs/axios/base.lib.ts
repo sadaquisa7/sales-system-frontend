@@ -33,7 +33,7 @@ export const createHttpClient = (api: AxiosInstance) => ({
   // GET
   get: async <Data, Params = unknown>(
     url: string,
-    params?: Record<string, Params>
+    params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
       const response: AxiosResponse<Data> = await api.get(url, { params });
@@ -47,7 +47,7 @@ export const createHttpClient = (api: AxiosInstance) => ({
   post: async <Body, Data, Params = unknown>(
     url: string,
     body: Body,
-    params?: Record<string, Params>
+    params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
       const response: AxiosResponse<Data> = await api.post(url, body, {
@@ -63,7 +63,7 @@ export const createHttpClient = (api: AxiosInstance) => ({
   put: async <Body, Data, Params = unknown>(
     url: string,
     body: Body,
-    params?: Record<string, Params>
+    params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
       const response: AxiosResponse<Data> = await api.put(url, body, {
@@ -78,7 +78,7 @@ export const createHttpClient = (api: AxiosInstance) => ({
   // DELETE
   delete: async <Data, Params = unknown>(
     url: string,
-    params?: Record<string, Params>
+    params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
       const response: AxiosResponse<Data> = await api.delete(url, {
@@ -94,7 +94,7 @@ export const createHttpClient = (api: AxiosInstance) => ({
   patch: async <Body, Data, Params = unknown>(
     url: string,
     body: Body,
-    params?: Record<string, Params>
+    params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
       const response: AxiosResponse<Data> = await api.patch(url, body, {

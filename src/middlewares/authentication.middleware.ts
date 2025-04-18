@@ -5,7 +5,7 @@ export async function authenticationMiddleware(
   pathname: string,
   sessionToken?: string
 ) {
-  let res: Response = {
+  const res: Response = {
     status: true,
     redirect: "/login",
   };
@@ -13,7 +13,7 @@ export async function authenticationMiddleware(
     console.log("No autenticado. Redirigiendo a /login");
   } else {
     const { status, data } = await authService.me(pathname, sessionToken);
-    if (status && data) {
+    if (status && data && !("items" in data)) {
       res.data = data;
       res.status = false;
     }

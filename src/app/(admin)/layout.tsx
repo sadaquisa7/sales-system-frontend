@@ -25,7 +25,7 @@ export default async function AdminLayout({
         <TopNav />
         <div className="flex">
           <SideMenu />
-          <section className="w-screen">
+          <section className="w-screen overflow-x-hidden">
             <section className="p-2 lg:p-4 overflow-y-auto h-screen-navbar">
               {children}
             </section>

@@ -4,11 +4,13 @@ import { ColumnFormProps } from "@interfaces/components/form/tables/column.inter
 
 const propsDefault: ColumnFormProps = {
   type: "text",
-  headerClassName: "uppercase text-center !font-bold",
-  alignHeader: "center",
+  headerClassName: "uppercase  !font-bold",
+  align: "center",
 };
 
-export const ColumnsFormComponent = (propsCurrent: ColumnFormProps): any => {
+export const ColumnsFormComponent = (
+  propsCurrent: ColumnFormProps
+): React.ReactElement => {
   const props = { ...propsDefault, ...propsCurrent };
   return <Column key={props.field} {...props} />;
 };

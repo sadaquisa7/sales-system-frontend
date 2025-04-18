@@ -13,9 +13,11 @@ export default function LoginComponent() {
     process.env.NEXT_PUBLIC_COOKIE_NAME_SESSION || "session_token";
   const onSuccess = (response: ApiResponse<LoginResponse>) => {
     const { data } = response;
-    if (data) {
+    if (data && !("items" in data)) {
       const { access_token, expires_at } = data;
-      Cookies.set(NAME_SESSION, access_token, { expires: expires_at });
+      Cookies.set(NAME_SESSION, access_token, {
+        expires: new Date(expires_at * 1000),
+      });
       router.push("/");
     }
   };
