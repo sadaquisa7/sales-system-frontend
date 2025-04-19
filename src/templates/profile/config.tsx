@@ -17,7 +17,7 @@ export default function ProfileConfigComponent() {
     { field: "geo_location", header: "Ubicación Geográfica", sortable: true },
     { field: "updated_at", header: "Última Actualización", sortable: true },
     { field: "expires_at", header: "Fecha de Expiración", sortable: true },
-    { field: "state", header: "Estado", sortable: true },
+    { field: "state", header: "Estado", sortable: true, type: "status" },
   ];
   return (
     <DataTableComponent<Session>
