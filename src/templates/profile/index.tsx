@@ -28,7 +28,7 @@ export default function ProfileComponent() {
 
   const onSuccess = (response: ApiResponse<User>) => {
     const { data } = response;
-    if (data && user) {
+    if (data && !("items" in data) && user) {
       const updatedUser = {
         ...user,
         first_name: data.first_name,

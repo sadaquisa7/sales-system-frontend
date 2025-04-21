@@ -22,3 +22,12 @@ interface Role {
   code: string;
   description: string;
 }
+
+export interface CreateOrUpdateUserDto {
+  first_name: string;
+  last_name: string;
+  email: string;
+  password: string;
+  roles: number[];
+  permissions: number[];
+}

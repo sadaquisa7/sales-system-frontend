@@ -1,5 +1,5 @@
 import { FormConfig } from "@/interfaces/components/dynamic/forms/form.interface";
-import { User } from "@interfaces/auth/auth.interface";
+import { User } from "@interfaces/services/user/user.interface";
 import { authService } from "@/services/auth/auth.service";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
 import { numberSessions } from "@constants/sessions.constants";

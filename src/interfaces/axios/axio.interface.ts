@@ -15,3 +15,7 @@ export interface Paginated<I> {
 export interface ErrorResponse {
   message?: string;
 }
+
+export interface StateRequest {
+  state: number;
+}

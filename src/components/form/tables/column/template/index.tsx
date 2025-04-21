@@ -1,11 +1,8 @@
-import { ColumnTemplateStatus } from "./status";
+import { ColumnTemplateText } from "./text";
 import { ColumnFormProps } from "@interfaces/components/form/tables/column.interface";
 
 export const ColumnsTemplateComponent = (
   props: ColumnFormProps
 ): ((rowData: any) => React.ReactNode) | undefined => {
-  if (props.type === "status") {
-    return ColumnTemplateStatus;
-  }
-  return undefined;
+  return (rowData) => ColumnTemplateText(props, rowData);
 };

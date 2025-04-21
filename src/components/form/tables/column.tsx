@@ -11,9 +11,11 @@ export const ColumnsFormComponent = (
   propsCurrent: ColumnFormProps
 ): React.ReactElement => {
   const props = { ...propsDefault, ...propsCurrent };
-  const bodyTemplate = ColumnsTemplateComponent(props);
-  if (bodyTemplate) {
-    props.body = bodyTemplate;
+  if (!props.body) {
+    const bodyTemplate = ColumnsTemplateComponent(props);
+    if (bodyTemplate) {
+      props.body = bodyTemplate;
+    }
   }
   return <Column key={props.field} {...props} />;
 };

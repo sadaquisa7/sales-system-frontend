@@ -20,10 +20,8 @@ const propsDefault: Partial<ButtonFormProps> = {
   ptOptions: {},
   raised: false,
   rounded: false,
-  severity: null,
   size: "small",
   text: false,
-  tooltip: null,
   tooltipOptions: {},
   unstyled: false,
   visible: true,
@@ -50,10 +48,10 @@ const ButtonFormComponent: React.FC<ButtonFormProps> = (propsCurrent) => {
       ptOptions={props.ptOptions!}
       raised={props.raised}
       rounded={props.rounded}
-      severity={props.severity!}
-      size={props.size!}
+      severity={props.severity}
+      size={props.size}
       text={props.text}
-      tooltip={props.tooltip!}
+      tooltip={props.tooltip}
       tooltipOptions={props.tooltipOptions!}
       unstyled={props.unstyled}
       type={props.type}

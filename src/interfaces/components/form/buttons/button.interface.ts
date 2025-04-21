@@ -1,7 +1,14 @@
 import { ButtonPassThroughOptions } from "primereact/button";
 import { PassThroughOptions } from "primereact/passthrough";
 import { TooltipOptions } from "primereact/tooltip/tooltipoptions";
-
+export type SEVERITY =
+  | "success"
+  | "help"
+  | "warning"
+  | "secondary"
+  | "info"
+  | "danger"
+  | "contrast";
 export interface ButtonFormProps {
   badge?: string | null;
   badgeClassName?: string | null;
@@ -19,18 +26,10 @@ export interface ButtonFormProps {
   ptOptions?: PassThroughOptions | null;
   raised?: boolean;
   rounded?: boolean;
-  severity?:
-    | "success"
-    | "help"
-    | "warning"
-    | "secondary"
-    | "info"
-    | "danger"
-    | "contrast"
-    | null;
-  size?: "small" | "large" | null;
+  severity?: SEVERITY;
+  size?: "small" | "large";
   text?: boolean;
-  tooltip?: string | null;
+  tooltip?: string;
   tooltipOptions?: TooltipOptions | null;
   unstyled?: boolean;
   visible?: boolean;

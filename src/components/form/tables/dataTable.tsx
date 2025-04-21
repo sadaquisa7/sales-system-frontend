@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useState, useRef, useCallback } from "react";
 
 import {
   DataTableFormProps,
@@ -126,23 +126,35 @@ const DataTableFormComponent = <D extends DataTableValue>(
     }
   };
 
-  const fetchData = async (queryParams?: Partial<QueryParams>) => {
-    if (!propsCurrent.serviceGetData) return;
-    try {
-      setLoading(true);
-      const params = buildQueryParams(queryParams);
-      const response = await propsCurrent.serviceGetData(params);
-      handleResponse(response);
-    } catch (error) {
-      console.error("Error al obtener los datos:", error);
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const fetchData = useCallback(
+    async (queryParams?: Partial<QueryParams>) => {
+      if (!propsCurrent.serviceGetData) return;
+      try {
+        setLoading(true);
+        const params = buildQueryParams(queryParams);
+        const response = await propsCurrent.serviceGetData(params);
+        handleResponse(response);
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [configPaginator, sort, propsCurrent.serviceGetData]
+  );
+
+  const fetchDataRef = useRef(fetchData);
+
+  useEffect(() => {
+    fetchDataRef.current = fetchData;
+  }, [fetchData]);
 
   useEffect(() => {
     fetchData();
+    if (propsCurrent.onRefetchSetter) {
+      propsCurrent.onRefetchSetter(() => fetchDataRef.current());
+    }
   }, []);
 
   const props = useMemo(() => {
@@ -150,9 +162,10 @@ const DataTableFormComponent = <D extends DataTableValue>(
       Object.entries({
         ...mergedProps,
         paginator: !mergedProps.serviceGetData,
+        loading: loading || mergedProps.loading,
       }).filter(([key]) => ALLOWED_KEYS.includes(key))
     );
-  }, [mergedProps]);
+  }, [mergedProps, loading]);
 
   const onPageChange = async (event: PaginatorPageChangeEvent) => {
     const { rows, page, first } = event;
@@ -162,7 +175,7 @@ const DataTableFormComponent = <D extends DataTableValue>(
       page,
       first,
     }));
-    await fetchData({ limit: rows, page });
+    fetchData({ limit: rows, page });
   };
 
   const onSort = async (event: DataTableStateEvent) => {
@@ -188,7 +201,6 @@ const DataTableFormComponent = <D extends DataTableValue>(
         {...props}
         onSort={onSort}
         value={data}
-        loading={loading}
         sortField={sort?.field}
         sortOrder={sort?.order}
       >

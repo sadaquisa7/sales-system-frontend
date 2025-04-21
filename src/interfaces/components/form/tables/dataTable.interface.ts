@@ -11,6 +11,7 @@ export interface DataTableFormProps<D>
   columns: ColumnFormProps[];
   serviceGetData?: (params?: QueryParams) => Promise<ApiResponse<D>>;
   titleHeader?: string;
+  onRefetchSetter?: (refetchFn: () => void) => void;
 }
 
 export type FilterOperator =

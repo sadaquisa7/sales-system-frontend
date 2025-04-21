@@ -3,8 +3,6 @@ import {
   NewForm,
   FormSchema,
 } from "@validations/profile/verifyPassword/verifyPassword.validation";
-import { ApiResponse } from "@interfaces/axios/axio.interface";
-import { useAuth } from "@contexts/auth/auth.context";
 import DialogComponent from "@components/form/modals/dialog.component";
 import { useState, useRef, forwardRef, useImperativeHandle } from "react";
 import FormComponent from "@components/dynamic/forms/form";

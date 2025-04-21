@@ -1,7 +1,6 @@
 import { Tag } from "primereact/tag";
-export interface ColumnTemplateStatus {
-  state: number;
-}
+import { ColumnFormProps } from "@interfaces/components/form/tables/column.interface";
+
 type TagSeverity =
   | "danger"
   | "success"
@@ -35,9 +34,11 @@ const getSeverity = (
 };
 
 export const ColumnTemplateStatus = (
-  props: ColumnTemplateStatus
+  props: ColumnFormProps,
+  rowData: any
 ): React.ReactElement => {
-  const severityResult = getSeverity(props.state);
+  const { field } = props;
+  const severityResult = getSeverity(rowData[field ?? ""]);
   if (!severityResult) return <></>;
   const { value, severity } = severityResult;
   return <Tag value={value} severity={severity} />;
