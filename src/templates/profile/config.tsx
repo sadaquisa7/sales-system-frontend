@@ -3,6 +3,8 @@ import SectionsListComponent from "@components/dynamic/sections/list";
 import { ColumnFormProps } from "@interfaces/components/form/tables/column.interface";
 import { Session } from "@interfaces/services/profile/config.interface";
 import { sessionsService } from "@/services/profile/session.service";
+import { Header } from "@/interfaces/components/dynamic/sections/list.interface";
+
 export default function ProfileConfigComponent() {
   const columns: ColumnFormProps[] = [
     {
@@ -19,10 +21,14 @@ export default function ProfileConfigComponent() {
     { field: "expires_at", header: "Fecha de Expiración", sortable: true },
     { field: "state", header: "Estado", sortable: true, type: "status" },
   ];
+
+  const header: Header = {
+    title: "sessiones activas",
+  };
   return (
     <SectionsListComponent<Session>
       columns={columns}
-      titleHeader="sessiones activas"
+      header={header}
       serviceGetData={sessionsService.list}
     />
   );

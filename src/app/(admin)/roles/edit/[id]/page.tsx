@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Usuarios - Crear",
-  description: "Usuarios - Crear",
+  title: "Roles - Editar",
+  description: "Roles - Editar",
 };
 
-export default function UsersCreate() {
+export default function Edit() {
   return (
     <div className="flex flex-col justify-center items-center ">
-      <label htmlFor="s">Users create</label>
+      <label htmlFor="s">Roles edit</label>
     </div>
   );
 }

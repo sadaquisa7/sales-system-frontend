@@ -1,7 +1,11 @@
-export default function RolesList() {
-  return (
-    <div className="flex flex-col justify-center items-center ">
-      <label htmlFor="s">Roles List</label>
-    </div>
-  );
+import SecurityRolesComponent from "@templates/security/roles";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Roles - Listado",
+  description: "Roles - Listado",
+};
+
+export default function List() {
+  return <SecurityRolesComponent />;
 }
