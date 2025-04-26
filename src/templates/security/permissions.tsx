@@ -3,7 +3,9 @@ import SectionsListComponent from "@components/dynamic/sections/list";
 import { ColumnFormProps } from "@interfaces/components/form/tables/column.interface";
 import { Permission } from "@interfaces/services/security/permissions.interface";
 import { permissionsService } from "@/services/security/permissions.service";
+import { Header } from "@/interfaces/components/dynamic/sections/list.interface";
 export default function SecurityPermissionsComponent() {
+  const urlBase = "/permissions";
   const columns: ColumnFormProps[] = [
     {
       field: "name",
@@ -26,25 +28,31 @@ export default function SecurityPermissionsComponent() {
       type: "actions",
       actions: [
         {
+          type: "state",
+          service: permissionsService.state,
+        },
+        {
           type: "redirect",
           icon: "pi pi-pen-to-square",
-          redirect: `/permissions/edit/{id}`,
+          redirect: `${urlBase}/edit/{id}`,
           params: ["id"],
         },
         {
           type: "delete",
           service: permissionsService.delete,
         },
-        {
-          type: "state",
-          service: permissionsService.state,
-        },
       ],
     },
   ];
+  const header: Header = {
+    title: "Listado de permisos",
+    btnCreate: {
+      redirect: `${urlBase}/create`,
+    },
+  };
   return (
     <SectionsListComponent<Permission>
-      titleHeader="Listado de permisos"
+      header={header}
       columns={columns}
       serviceGetData={permissionsService.list}
     />

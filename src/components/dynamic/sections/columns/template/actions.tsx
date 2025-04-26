@@ -5,6 +5,7 @@ import {
 } from "@interfaces/components/form/tables/column.interface";
 import { SEVERITY } from "@/interfaces/components/form/buttons/button.interface";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
+import { ActionHandlers } from "@interfaces/components/dynamic/sections/list.interface";
 
 import ButtonFormComponent from "@components/form/buttons/button.component";
 import InputSwitchFormComponent from "@components/form/inputs/inputSwitch.component";
@@ -19,15 +20,14 @@ const buildRedirectPath = (template: string, params: string[], data: any) => {
 export const ColumnTemplateActions = (
   props: ColumnFormProps,
   rowData: any,
-  executeLoading: (loading: boolean, response?: ApiResponse) => void
+  actionHandlers: ActionHandlers
 ): React.ReactElement => {
   const { actions = [] } = props;
-
+  const { executeLoading, setShowConfirm, setPendingService } = actionHandlers;
   const handlerAction = async (service?: () => Promise<ApiResponse>) => {
     if (typeof service === "function") {
       executeLoading(true);
-      const response = await service();
-      executeLoading(false, response);
+      executeLoading(false, await service());
     }
   };
 
@@ -57,8 +57,7 @@ export const ColumnTemplateActions = (
 
     const handlerActionState = async () => {
       if (typeof service === "function") {
-        const serviceState = () => service(idValue, value ? 0 : 1);
-        await handlerAction(serviceState);
+        await handlerAction(() => service(idValue, value ? 0 : 1));
       }
     };
 
@@ -74,15 +73,31 @@ export const ColumnTemplateActions = (
   };
 
   const renderDeleteAction = (action: Action, index: number) => {
-    let icon = action.icon ?? "pi pi-wrench";
+    let { icon = "pi pi-wrench" } = action;
+    const { columnKeyId = "id", service } = action;
+    const idValue = rowData[columnKeyId];
     let severity: SEVERITY | undefined;
-
     if (action.type === "delete") {
       icon = "pi pi-trash";
       severity = "danger";
     }
-
-    return <ButtonFormComponent key={index} icon={icon} severity={severity} />;
+    const handlerDelete = () => {
+      if (typeof service === "function") {
+        const serviceWithId = service as (
+          id: number
+        ) => Promise<ApiResponse<any>>;
+        setPendingService(() => () => serviceWithId(idValue));
+        setShowConfirm(true);
+      }
+    };
+    return (
+      <ButtonFormComponent
+        key={index}
+        icon={icon}
+        severity={severity}
+        onClick={handlerDelete}
+      />
+    );
   };
 
   const renderAction = (action: Action, index: number) => {

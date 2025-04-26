@@ -4,6 +4,22 @@ import { QueryParams } from "@interfaces/components/form/tables/dataTable.interf
 
 export interface SectionsListProps<D> {
   columns: ColumnFormProps[];
-  titleHeader: string;
+  header?: Header;
   serviceGetData?: (params?: QueryParams) => Promise<ApiResponse<D>>;
+}
+
+export interface ActionHandlers {
+  executeLoading: (loading: boolean, response?: ApiResponse) => void;
+  setShowConfirm: (show: boolean) => void;
+  setPendingService: (service: () => () => Promise<ApiResponse>) => void;
+}
+
+export interface BtnCreate {
+  name?: string;
+  redirect: string;
+}
+
+export interface Header {
+  title: string;
+  btnCreate?: BtnCreate;
 }

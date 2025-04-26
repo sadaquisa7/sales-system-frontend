@@ -1,5 +1,5 @@
 "use client";
-import DataTableComponent from "@components/form/tables/dataTable";
+import SectionsListComponent from "@components/dynamic/sections/list";
 import { ColumnFormProps } from "@interfaces/components/form/tables/column.interface";
 import { Session } from "@interfaces/services/profile/config.interface";
 import { sessionsService } from "@/services/profile/session.service";
@@ -20,7 +20,7 @@ export default function ProfileConfigComponent() {
     { field: "state", header: "Estado", sortable: true, type: "status" },
   ];
   return (
-    <DataTableComponent<Session>
+    <SectionsListComponent<Session>
       columns={columns}
       titleHeader="sessiones activas"
       serviceGetData={sessionsService.list}
