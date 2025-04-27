@@ -6,6 +6,7 @@ export interface SectionsListProps<D> {
   columns: ColumnFormProps[];
   header?: Header;
   serviceGetData?: (params?: QueryParams) => Promise<ApiResponse<D>>;
+  params?: QueryParams;
 }
 
 export interface ActionHandlers {

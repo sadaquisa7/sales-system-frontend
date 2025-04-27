@@ -68,13 +68,14 @@ const InputTextareaFormComponent: React.FC<InputTextareaFormProps> = (
         onChange={handleChange}
         id={props.id}
         name={props.name}
-        className="p-inputtext-sm w-full"
+        className="w-full"
         required={props.required}
         readOnly={props.readOnly}
         disabled={props.disabled}
         rows={props.rows}
         cols={props.cols}
       />
+
       {props.errors && props.errors.length > 0 && (
         <div className="pt-1 space-y-1">
           {props.errors.map((error, index) => (

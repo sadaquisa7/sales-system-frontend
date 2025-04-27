@@ -44,7 +44,7 @@ const FieldRenderer: React.FC<{
     id: field.id || `${field.name}-id`,
     name: field.name || `${field.name}-name`,
     label: field.label,
-    onChange: (e: React.ChangeEvent<HTMLInputElement>) =>
+    onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       onChange(field.name, extractValue(field.type, e)),
     errors,
     ...(field.props || {}),

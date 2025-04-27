@@ -25,6 +25,7 @@ export const getDefaultValue = (field: FormField): ValueComponent => {
 export const extractValue = (type: string, event: any): ValueComponent => {
   switch (type) {
     case FIELD_TYPES.INPUT_TEXT:
+    case FIELD_TYPES.TEXT_AREA:
     case FIELD_TYPES.INPUT_PASSWORD:
       return event.target.value;
     case FIELD_TYPES.INPUT_MASK:

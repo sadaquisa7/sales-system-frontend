@@ -12,6 +12,7 @@ export interface DataTableFormProps<D>
   serviceGetData?: (params?: QueryParams) => Promise<ApiResponse<D>>;
   titleHeader?: string;
   onRefetchSetter?: (refetchFn: () => void) => void;
+  params?: QueryParams;
 }
 
 export type FilterOperator =
@@ -38,7 +39,7 @@ export interface FilterQueryParams {
 export interface QueryParams {
   limit?: number;
   page?: number;
-  order?: SortQueryParams;
+  order?: SortQueryParams | null;
   filters?: FilterQueryParams[];
 }
 

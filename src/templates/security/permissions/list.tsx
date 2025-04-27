@@ -4,6 +4,8 @@ import { ColumnFormProps } from "@interfaces/components/form/tables/column.inter
 import { Permission } from "@interfaces/services/security/permissions.interface";
 import { permissionsService } from "@/services/security/permissions.service";
 import { Header } from "@/interfaces/components/dynamic/sections/list.interface";
+import { QueryParams } from "@interfaces/components/form/tables/dataTable.interface";
+
 export default function SecurityPermissionsComponent() {
   const urlBase = "/permissions";
   const columns: ColumnFormProps[] = [
@@ -50,10 +52,17 @@ export default function SecurityPermissionsComponent() {
       redirect: `${urlBase}/create`,
     },
   };
+  const params: QueryParams = {
+    order: {
+      field: "updated_at",
+      direction: "DESC",
+    },
+  };
   return (
     <SectionsListComponent<Permission>
       header={header}
       columns={columns}
+      params={params}
       serviceGetData={permissionsService.list}
     />
   );

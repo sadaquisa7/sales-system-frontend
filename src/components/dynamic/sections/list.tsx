@@ -27,7 +27,7 @@ export default function SectionsListComponent<TData extends DataTableValue>(
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const { success, error } = useToast();
-  const { columns, header, serviceGetData } = props;
+  const { columns, header, serviceGetData, params } = props;
 
   const executeLoading = async (loading: boolean, response?: ApiResponse) => {
     setLoading(loading);
@@ -82,6 +82,7 @@ export default function SectionsListComponent<TData extends DataTableValue>(
         header={HeaderFormComponent(header)}
         serviceGetData={serviceGetData}
         onRefetchSetter={(fn) => setRefetchData(() => fn)}
+        params={params}
       />
       <ConfirmationModal
         visible={showConfirm}

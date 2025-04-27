@@ -10,6 +10,7 @@ import { TooltipOptions } from "primereact/tooltip/tooltipoptions";
 import { CSSTransitionProps } from "primereact/csstransition";
 import { VirtualScrollerProps } from "primereact/virtualscroller";
 import { SelectItemOptionsType } from "primereact/selectitem";
+import { ApiResponse } from "@interfaces/axios/axio.interface";
 
 export interface SelectMultipleFormProps<T = unknown> {
   appendTo?: "self" | HTMLElement | null | (() => HTMLElement);
@@ -102,4 +103,8 @@ export interface SelectMultipleFormProps<T = unknown> {
   label?: string;
   onChange?: (event: MultiSelectChangeEvent) => void;
   errors?: string[];
+  serviceGetOptions?: () => Promise<ApiResponse<SelectItemOptionsType>>;
+  autoLoadService?: boolean;
+  textLoading?: string;
+  exposeServiceRef?: React.MutableRefObject<(() => Promise<void>) | undefined>;
 }

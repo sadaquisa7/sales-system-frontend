@@ -1,6 +1,5 @@
 "use client";
 import { useMemo, useEffect, useState, useRef, useCallback } from "react";
-
 import {
   DataTableFormProps,
   PaginatorProps,
@@ -12,6 +11,7 @@ import {
   DataTable,
   DataTableStateEvent,
   DataTableValue,
+  SortOrder,
 } from "primereact/datatable";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
 
@@ -92,7 +92,16 @@ const DataTableFormComponent = <D extends DataTableValue>(
     totalRecords: mergedProps.totalRecords ?? 1,
   });
 
-  const [sort, setSort] = useState<SortOption | null>(null);
+  const GetSortOrder = (direction?: string): SortOrder => {
+    if (direction === "ASC") return 1;
+    if (direction === "DESC") return -1;
+    return 0;
+  };
+
+  const [sort, setSort] = useState<SortOption | null>({
+    field: mergedProps.params?.order?.field ?? "",
+    order: GetSortOrder(mergedProps.params?.order?.direction),
+  });
 
   const buildQueryParams = (
     queryParams?: Partial<QueryParams>
@@ -101,8 +110,8 @@ const DataTableFormComponent = <D extends DataTableValue>(
       limit: queryParams?.limit ?? configPaginator.rows,
       page: (queryParams?.page ?? configPaginator.page) + 1,
     };
-    if (queryParams?.order) {
-      baseParams.order = queryParams.order;
+    if (queryParams?.order !== null) {
+      baseParams.order = queryParams?.order ?? mergedProps.params?.order;
     }
     return baseParams;
   };
@@ -181,7 +190,7 @@ const DataTableFormComponent = <D extends DataTableValue>(
   const onSort = async (event: DataTableStateEvent) => {
     const { sortField, sortOrder } = event;
     setSort(null);
-    let order: SortQueryParams | undefined = undefined;
+    let order: SortQueryParams | null = null;
     if (sortOrder) {
       setSort({ field: sortField, order: sortOrder });
       order = {

@@ -1,6 +1,6 @@
 import { AxiosInstance, AxiosResponse, AxiosError } from "axios";
 import { ApiResponse, ErrorResponse } from "@interfaces/axios/axio.interface";
-
+import { ConvertParams } from "@utils/services/queryParams";
 // Función reutilizable para manejar errores
 const handleError = <T>(error: AxiosError<ErrorResponse>): ApiResponse<T> => {
   if (error.response) {
@@ -36,7 +36,10 @@ export const createHttpClient = (api: AxiosInstance) => ({
     params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
-      const response: AxiosResponse<Data> = await api.get(url, { params });
+      const newParams = ConvertParams(params ?? {});
+      const response: AxiosResponse<Data> = await api.get(url, {
+        params: newParams,
+      });
       return response.data as ApiResponse<Data>;
     } catch (error) {
       return handleError<Data>(error as AxiosError<ErrorResponse>);
@@ -50,8 +53,9 @@ export const createHttpClient = (api: AxiosInstance) => ({
     params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
+      const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.post(url, body, {
-        params,
+        params: newParams,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {
@@ -66,8 +70,9 @@ export const createHttpClient = (api: AxiosInstance) => ({
     params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
+      const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.put(url, body, {
-        params,
+        params: newParams,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {
@@ -81,8 +86,9 @@ export const createHttpClient = (api: AxiosInstance) => ({
     params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
+      const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.delete(url, {
-        params,
+        params: newParams,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {
@@ -97,8 +103,9 @@ export const createHttpClient = (api: AxiosInstance) => ({
     params?: Params
   ): Promise<ApiResponse<Data>> => {
     try {
+      const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.patch(url, body, {
-        params,
+        params: newParams,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {

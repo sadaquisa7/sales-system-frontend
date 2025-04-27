@@ -1,5 +1,6 @@
 import { FormConfig } from "@/interfaces/components/dynamic/forms/form.interface";
 import { permissionsService } from "@/services/security/permissions.service";
+import { methodsService } from "@/services/security/methods.service";
 
 export const ConfigForm: FormConfig = {
   info: {
@@ -30,9 +31,25 @@ export const ConfigForm: FormConfig = {
             type: "input_text",
             name: "route",
             label: "Ruta",
-            className: "lg:col-span-5 col-span-12",
+            className: "lg:col-span-3 col-span-12",
             props: {
               required: true,
+              placeholder: "/api/v1/permissions",
+            },
+          },
+          {
+            type: "select_multiple",
+            name: "methods",
+            label: "Métodos",
+            className: "lg:col-span-4 col-span-12",
+            props: {
+              required: true,
+              id: "methods",
+              optionLabel: "method",
+              optionValue: "id",
+              placeholder: "Selecciona Métodos",
+              filter: false,
+              serviceGetOptions: methodsService.all,
             },
           },
           {
@@ -42,18 +59,6 @@ export const ConfigForm: FormConfig = {
             className: "lg:col-span-2 col-span-12",
             props: {
               required: true,
-            },
-          },
-          {
-            type: "select_simple",
-            name: "methods",
-            label: "Métodos",
-            className: "lg:col-span-2 col-span-12",
-            props: {
-              required: true,
-              id: "methods",
-              filter: false,
-              options: [],
             },
           },
           {

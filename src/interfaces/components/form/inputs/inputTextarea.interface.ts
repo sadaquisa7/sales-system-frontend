@@ -5,4 +5,5 @@ export interface InputTextareaFormProps extends InputTextareaProps {
   label?: string;
   cols?: number;
   rows?: number;
+  onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }

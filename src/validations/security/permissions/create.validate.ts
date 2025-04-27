@@ -3,7 +3,7 @@ import { z } from "zod";
 
 const nameRegex = /^[A-Za-z0-9\s]+$/;
 const codeRegex = /^[A-Z_]+$/;
-const routeRegex = /^\/(\*|.*)?$|^\*$/;
+const routeRegex = /^\/([^\/]+\/){2,}[^\/]+$/;
 
 export const FormSchema = z.object({
   name: z
