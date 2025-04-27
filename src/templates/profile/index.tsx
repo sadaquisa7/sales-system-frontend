@@ -7,7 +7,7 @@ import ModalConfirmation from "./modals/Confirmation";
 import ModalVerifyPassword from "./modals/VerifyPassword";
 import { useRef } from "react";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
-import { User } from "@interfaces/services/user/user.interface";
+import { User } from "@/interfaces/services/security/users.interface";
 import { generateUsername } from "@utils/auth/user.utils";
 
 export default function ProfileComponent() {

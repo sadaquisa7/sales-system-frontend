@@ -5,7 +5,7 @@ import {
   LoginRequest,
   LoginResponse,
 } from "@interfaces/services/auth/login.interface";
-import { User } from "@interfaces/services/user/user.interface";
+import { User } from "@/interfaces/services/security/users.interface";
 import { MeResponse } from "@interfaces/services/auth/me.interface";
 const baseUrl = "/auth";
 

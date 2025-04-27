@@ -1,7 +1,11 @@
-export default function UsersList() {
-  return (
-    <div className="flex flex-col justify-center items-center ">
-      <label htmlFor="s">Users List</label>
-    </div>
-  );
+import SecurityUsersComponent from "@templates/security/users";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Usuarios - Listado",
+  description: "Usuarios - Listado",
+};
+
+export default function List() {
+  return <SecurityUsersComponent />;
 }

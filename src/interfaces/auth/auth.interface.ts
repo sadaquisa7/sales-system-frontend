@@ -1,5 +1,5 @@
 import { MenuItem } from "@interfaces/components/layouts/admin/vertical/item.interface";
-import { User } from "@interfaces/services/user/user.interface";
+import { User } from "@/interfaces/services/security/users.interface";
 export interface AuthContextValue {
   user: User | null;
   menus: MenuItem[];

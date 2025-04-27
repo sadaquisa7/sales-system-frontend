@@ -1,4 +1,4 @@
-import { User } from "@interfaces/services/user/user.interface";
+import { User } from "@/interfaces/services/security/users.interface";
 interface Menu {
   label: string;
   route: string | null;

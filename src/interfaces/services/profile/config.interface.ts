@@ -1,3 +1,4 @@
+import { User } from "../security/users.interface";
 interface DeviceInfo {
   browser: string;
   browser_version: string;
@@ -24,4 +25,5 @@ export interface Session {
   timezone: string;
   geo_location: string | null;
   expires_at: string;
+  user: User;
 }
