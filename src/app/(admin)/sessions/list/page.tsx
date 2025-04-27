@@ -1,4 +1,4 @@
-import SecuritySessionsComponent from "@templates/security/sessions";
+import SecuritySessionsComponent from "@/templates/security/sessions/list";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

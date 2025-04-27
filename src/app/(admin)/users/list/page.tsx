@@ -1,4 +1,4 @@
-import SecurityUsersComponent from "@templates/security/users";
+import SecurityUsersComponent from "@/templates/security/users/list";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

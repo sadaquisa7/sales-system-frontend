@@ -3,13 +3,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ButtonFormComponent from "@/components/form/buttons/button.component";
+
 import InputTextFormComponent from "@/components/form/inputs/inputText.component";
 import InputMaskFormComponent from "@/components/form/inputs/inputMask.component";
 import InputNumberFormComponent from "@/components/form/inputs/inputNumber.component";
 import InputSwitchFormComponent from "@/components/form/inputs/inputSwitch.component";
 import InputPasswordFormComponent from "@/components/form/inputs/inputPassword.component";
+import InputTextareaFormComponent from "@/components/form/inputs/inputTextarea.component";
+
 import SelectSimpleFormComponent from "@/components/form/selects/selectSimple.component";
 import SelectMultipleFormComponent from "@/components/form/selects/selectMultiple.component";
+
 import DateCalendarFormComponent from "@/components/form/dates/calendar.component";
 import {
   FormConfig,
@@ -52,6 +56,7 @@ const FieldRenderer: React.FC<{
     [FIELD_TYPES.INPUT_NUMBER]: InputNumberFormComponent,
     [FIELD_TYPES.INPUT_SWITCH]: InputSwitchFormComponent,
     [FIELD_TYPES.INPUT_PASSWORD]: InputPasswordFormComponent,
+    [FIELD_TYPES.TEXT_AREA]: InputTextareaFormComponent,
     [FIELD_TYPES.SELECT_SIMPLE]: SelectSimpleFormComponent,
     [FIELD_TYPES.SELECT_MULTIPLE]: SelectMultipleFormComponent,
     [FIELD_TYPES.DATE]: DateCalendarFormComponent,

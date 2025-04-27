@@ -5,6 +5,7 @@ export const FIELD_TYPES = {
   INPUT_NUMBER: "input_number",
   INPUT_SWITCH: "input_switch",
   INPUT_PASSWORD: "input_password",
+  TEXT_AREA: "text_area",
   SELECT_SIMPLE: "select_simple",
   SELECT_MULTIPLE: "select_multiple",
   DATE: "date",

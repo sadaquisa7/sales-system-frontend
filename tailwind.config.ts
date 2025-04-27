@@ -5,7 +5,7 @@ export default {
     "./src/templates/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/configs/forms/**/*.{js,ts}",
+    "./src/configs/**/*.{js,ts,jsx,tsx,mdx}",
     "node_modules/primereact/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {

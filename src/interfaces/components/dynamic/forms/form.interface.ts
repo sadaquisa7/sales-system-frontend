@@ -4,6 +4,7 @@ import { ApiResponse } from "@interfaces/axios/axio.interface";
 
 export interface FormField {
   type:
+    | "text_area"
     | "input_text"
     | "input_mask"
     | "input_number"

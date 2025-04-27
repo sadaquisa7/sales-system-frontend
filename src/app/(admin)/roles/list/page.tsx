@@ -1,4 +1,4 @@
-import SecurityRolesComponent from "@templates/security/roles";
+import SecurityRolesComponent from "@/templates/security/roles/list";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
