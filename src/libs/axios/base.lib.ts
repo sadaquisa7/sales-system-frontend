@@ -33,12 +33,14 @@ export const createHttpClient = (api: AxiosInstance) => ({
   // GET
   get: async <Data, Params = unknown>(
     url: string,
-    params?: Params
+    params?: Params,
+    headers?: Record<string, string>
   ): Promise<ApiResponse<Data>> => {
     try {
       const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.get(url, {
         params: newParams,
+        headers,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {
@@ -50,12 +52,14 @@ export const createHttpClient = (api: AxiosInstance) => ({
   post: async <Body, Data, Params = unknown>(
     url: string,
     body: Body,
-    params?: Params
+    params?: Params,
+    headers?: Record<string, string>
   ): Promise<ApiResponse<Data>> => {
     try {
       const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.post(url, body, {
         params: newParams,
+        headers,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {
@@ -67,12 +71,14 @@ export const createHttpClient = (api: AxiosInstance) => ({
   put: async <Body, Data, Params = unknown>(
     url: string,
     body: Body,
-    params?: Params
+    params?: Params,
+    headers?: Record<string, string>
   ): Promise<ApiResponse<Data>> => {
     try {
       const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.put(url, body, {
         params: newParams,
+        headers,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {
@@ -83,12 +89,14 @@ export const createHttpClient = (api: AxiosInstance) => ({
   // DELETE
   delete: async <Data, Params = unknown>(
     url: string,
-    params?: Params
+    params?: Params,
+    headers?: Record<string, string>
   ): Promise<ApiResponse<Data>> => {
     try {
       const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.delete(url, {
         params: newParams,
+        headers,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {
@@ -100,12 +108,14 @@ export const createHttpClient = (api: AxiosInstance) => ({
   patch: async <Body, Data, Params = unknown>(
     url: string,
     body: Body,
-    params?: Params
+    params?: Params,
+    headers?: Record<string, string>
   ): Promise<ApiResponse<Data>> => {
     try {
       const newParams = ConvertParams(params ?? {});
       const response: AxiosResponse<Data> = await api.patch(url, body, {
         params: newParams,
+        headers,
       });
       return response.data as ApiResponse<Data>;
     } catch (error) {

@@ -31,9 +31,14 @@ export class BaseService<TData, TCreate = unknown> {
     return response;
   }
 
-  async edit(id: number): Promise<ApiResponse<TData>> {
+  async edit(id: number, token?: string): Promise<ApiResponse<TData>> {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
     const response: ApiResponse<TData> = await salesApi.get<TData>(
-      `${this.baseUrl}/${id}`
+      `${this.baseUrl}/${id}`,
+      undefined,
+      headers
     );
     return response;
   }

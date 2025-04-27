@@ -1,14 +1,27 @@
 import type { Metadata } from "next";
+import { permissionsService } from "@/services/security/permissions.service";
+import EditComponent from "@/templates/security/permissions/edit";
+import {
+  getAllCookies,
+  CookieMap,
+} from "@helpers/proccessCookie/proccessData.helper";
+import { permission } from "process";
 
 export const metadata: Metadata = {
   title: "Permisos - Editar",
   description: "Permisos - Editar",
 };
 
-export default function Edit() {
-  return (
-    <div className="flex flex-col justify-center items-center ">
-      <label htmlFor="s">Permissions edit</label>
-    </div>
+interface PropsPages {
+  params: { id: string };
+}
+
+export default async function Edit({ params }: PropsPages) {
+  const { id } = await params;
+  const cookieStoreServer: CookieMap = await getAllCookies();
+  const { data } = await permissionsService.edit(
+    parseInt(id),
+    cookieStoreServer.session_token
   );
+  return <EditComponent permission={data} />;
 }
