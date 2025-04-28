@@ -3,6 +3,7 @@
 import SectionsListComponent from "@components/dynamic/sections/list";
 import { ColumnFormProps } from "@interfaces/components/form/tables/column.interface";
 import { Header } from "@/interfaces/components/dynamic/sections/list.interface";
+import { QueryParams } from "@interfaces/components/form/tables/dataTable.interface";
 
 // Import Dynamic
 import { Role } from "@interfaces/services/security/roles.interface";
@@ -53,10 +54,17 @@ export default function SecurityRolesComponent() {
       redirect: `${urlBase}/create`,
     },
   };
+  const params: QueryParams = {
+    order: {
+      field: "updated_at",
+      direction: "DESC",
+    },
+  };
   return (
     <SectionsListComponent<Role>
       header={header}
       columns={columns}
+      params={params}
       serviceGetData={rolesService.list}
     />
   );

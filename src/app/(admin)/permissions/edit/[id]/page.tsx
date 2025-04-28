@@ -5,7 +5,6 @@ import {
   getAllCookies,
   CookieMap,
 } from "@helpers/proccessCookie/proccessData.helper";
-import { permission } from "process";
 
 export const metadata: Metadata = {
   title: "Permisos - Editar",
