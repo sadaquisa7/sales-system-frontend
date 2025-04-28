@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CreateComponent from "@/templates/security/users/create";
 
 export const metadata: Metadata = {
   title: "Usuarios - Crear",
@@ -6,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function UsersCreate() {
-  return (
-    <div className="flex flex-col justify-center items-center ">
-      <label htmlFor="s">Users create</label>
-    </div>
-  );
+  return <CreateComponent />;
 }

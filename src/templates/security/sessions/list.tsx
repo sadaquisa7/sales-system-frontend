@@ -1,9 +1,11 @@
 "use client";
 import SectionsListComponent from "@components/dynamic/sections/list";
 import { ColumnFormProps } from "@interfaces/components/form/tables/column.interface";
+import { Header } from "@/interfaces/components/dynamic/sections/list.interface";
+import { QueryParams } from "@interfaces/components/form/tables/dataTable.interface";
+
 import { Session } from "@interfaces/services/profile/config.interface";
 import { sessionsService } from "@/services/profile/session.service";
-import { Header } from "@/interfaces/components/dynamic/sections/list.interface";
 
 export default function SecuritySessionsComponent() {
   const columns: ColumnFormProps[] = [
@@ -46,10 +48,17 @@ export default function SecuritySessionsComponent() {
   const header: Header = {
     title: "sessiones activas",
   };
+  const params: QueryParams = {
+    order: {
+      field: "updated_at",
+      direction: "DESC",
+    },
+  };
   return (
     <SectionsListComponent<Session>
       columns={columns}
       header={header}
+      params={params}
       serviceGetData={sessionsService.listAll}
     />
   );

@@ -7,9 +7,10 @@ import { Header } from "@/interfaces/components/dynamic/sections/list.interface"
 // Import Dynamic
 import { User } from "@interfaces/services/security/users.interface";
 import { usersService } from "@/services/security/users.service";
+import { QueryParams } from "@interfaces/components/form/tables/dataTable.interface";
 
 export default function SecurityUsersComponent() {
-  const urlBase = "/roles";
+  const urlBase = "/users";
   const columns: ColumnFormProps[] = [
     {
       field: "first_name",
@@ -63,10 +64,17 @@ export default function SecurityUsersComponent() {
       redirect: `${urlBase}/create`,
     },
   };
+  const params: QueryParams = {
+    order: {
+      field: "updated_at",
+      direction: "DESC",
+    },
+  };
   return (
     <SectionsListComponent<User>
       header={header}
       columns={columns}
+      params={params}
       serviceGetData={usersService.list}
     />
   );

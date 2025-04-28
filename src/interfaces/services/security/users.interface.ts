@@ -1,3 +1,4 @@
+import { Permission } from "./permissions.interface";
 export interface User {
   id: number;
   state: number;
@@ -9,7 +10,7 @@ export interface User {
   email: string;
   max_active_sessions: number;
   password?: string;
-  permissions: string[];
+  permissions: Permission[];
   roles: Role[];
 }
 interface Role {
