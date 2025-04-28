@@ -73,10 +73,10 @@ export class BaseService<TData, TCreate = unknown> {
     id: number,
     body: Partial<TCreate>
   ): Promise<ApiResponse<TData>> {
-    const response: ApiResponse<TData> = await salesApi.post<
+    const response: ApiResponse<TData> = await salesApi.put<
       Partial<TCreate>,
       TData
-    >(`${this.baseUrl}/update/${id}`, body);
+    >(`${this.baseUrl}/${id}`, body);
     return response;
   }
 }

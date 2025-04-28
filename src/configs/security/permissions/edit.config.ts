@@ -10,7 +10,7 @@ export const ConfigForm = (item: Permission | null): FormConfig => ({
       className:
         "text-5xl mb-2 text-center uppercase font-bold tracking-tight text-gray-900",
     },
-    service: permissionsService.edit,
+    service: (data) => permissionsService.update(item?.id ?? 0, data),
   },
   sections: {
     items: {

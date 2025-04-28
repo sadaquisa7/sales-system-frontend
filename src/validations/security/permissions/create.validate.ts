@@ -1,7 +1,7 @@
 // lib/schemas/formSchema.ts
 import { z } from "zod";
 
-const nameRegex = /^[A-Za-z0-9\s]+$/;
+const nameRegex = /^[A-Za-z\s]+$/;
 const codeRegex = /^[A-Z_]+$/;
 const routeRegex = /^\/([^\/]+\/){2,}[^\/]+$/;
 
@@ -9,7 +9,7 @@ export const FormSchema = z.object({
   name: z
     .string()
     .min(1, "Nombre requerido")
-    .regex(nameRegex, "Solo letras, números y espacios"),
+    .regex(nameRegex, "Solo letras y espacios permitidos"),
   code: z
     .string()
     .min(1, "Código requerido")
