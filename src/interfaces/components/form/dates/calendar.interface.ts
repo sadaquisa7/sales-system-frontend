@@ -76,7 +76,7 @@ export interface DateCalendarFormProps {
   touchUI?: boolean;
   transitionOptions?: CSSTransitionProps;
   unstyled?: boolean;
-  value?: string | Date | number | (string | Date | number | null)[] | null;
+  value?: CalendarValue;
   variant?: "filled" | "outlined";
   view?: "month" | "year" | "date";
   viewDate?: Date | null;
@@ -84,12 +84,11 @@ export interface DateCalendarFormProps {
   yearNavigator?: boolean;
   yearRange?: string;
   label?: string;
-  onChange?: (
-    value: string | Date | number | (string | Date | number | null)[] | null
-  ) => void;
+  onChange?: (value: CalendarValue) => void;
   dateFormatValue?: string;
   dateFormatInput?: string;
   errors?: string[];
+  onHide?: (value: CalendarValue) => void;
 }
 
 export type CalendarValue =

@@ -49,15 +49,14 @@ const SelectMultipleFormComponent = <T,>(
 
   const [internalValue, setInternalValue] = useState(props.value || []);
   const [options, setOptions] = useState(props.options || []);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (e: MultiSelectChangeEvent) => {
     const newValue = e.value;
     if (props.onChange) {
       props.onChange(e);
-    } else {
-      setInternalValue(newValue);
     }
+    setInternalValue(newValue);
   };
 
   const fetchOptions = async () => {
@@ -102,6 +101,12 @@ const SelectMultipleFormComponent = <T,>(
     }),
     [props, loadingDynamic, options]
   );
+
+  const onHide = () => {
+    if (props.onHide) {
+      props.onHide(internalValue);
+    }
+  };
 
   return (
     <div>
@@ -180,6 +185,7 @@ const SelectMultipleFormComponent = <T,>(
           useOptionAsValue={newProps.useOptionAsValue}
           value={newProps.value ?? internalValue}
           onChange={handleChange}
+          onHide={onHide}
         />
       </div>
       {newProps.errors && newProps.errors.length > 0 && (

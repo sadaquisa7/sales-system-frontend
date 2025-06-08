@@ -4,6 +4,7 @@ import { DataTableValue } from "primereact/datatable";
 
 import DataTableComponent from "@components/form/tables/dataTable";
 import { ColumnsTemplateComponent } from "./columns/template";
+import { ColumnsFiltersComponent } from "./columns/filters";
 import ConfirmationModal from "./modals/confirmation";
 import { HeaderFormComponent } from "./header";
 
@@ -27,7 +28,14 @@ export default function SectionsListComponent<TData extends DataTableValue>(
   const [loading, setLoading] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const { success, error } = useToast();
-  const { columns, header, serviceGetData, params } = props;
+  const {
+    columns,
+    header,
+    serviceGetData,
+    params,
+    filters,
+    globalFilterFields,
+  } = props;
 
   const executeLoading = async (loading: boolean, response?: ApiResponse) => {
     setLoading(loading);
@@ -50,13 +58,20 @@ export default function SectionsListComponent<TData extends DataTableValue>(
 
   const newColumns: ColumnFormProps[] = columns.map(
     (column: ColumnFormProps) => {
+      const { filter, field, filterField } = column;
+      const newColumn: ColumnFormProps = { ...column };
+      if (filter) {
+        const filterElement = ColumnsFiltersComponent(column);
+        if (filterElement) {
+          newColumn.filterElement = filterElement;
+        }
+        newColumn.filterField = filterField ?? field;
+      }
       const body = ColumnsTemplateComponent(column, actionHandlers);
-      return body
-        ? {
-            ...column,
-            body,
-          }
-        : column;
+      if (body) {
+        newColumn.body = body;
+      }
+      return newColumn;
     }
   );
 
@@ -77,6 +92,8 @@ export default function SectionsListComponent<TData extends DataTableValue>(
   return (
     <>
       <DataTableComponent<TData>
+        globalFilterFields={globalFilterFields}
+        filters={filters}
         columns={newColumns}
         loading={loading}
         header={HeaderFormComponent(header)}

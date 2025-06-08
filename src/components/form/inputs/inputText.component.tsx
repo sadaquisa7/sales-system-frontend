@@ -15,7 +15,6 @@ const propsDefault: Partial<InputTextFormProps> = {
   tooltipOptions: {},
   unstyled: false,
   validateOnly: false,
-  value: null,
   variant: "outlined",
   id: "input-text-id",
   name: "input-text-name",
@@ -45,6 +44,13 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
       props.onChange(event);
     } else {
       setInternalValue(newValue);
+    }
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    const currentValue = event.currentTarget.value;
+    if (event.key === "Enter" && props.onEnter) {
+      props.onEnter(currentValue, event);
     }
   };
 
@@ -97,6 +103,7 @@ const InputTextFormComponent: React.FC<InputTextFormProps> = (propsCurrent) => {
           required={props.required}
           readOnly={props.readOnly}
           disabled={props.disabled}
+          onKeyDown={handleKeyDown}
         />
         {props.rightAddon && (
           <span className="p-inputgroup-addon">

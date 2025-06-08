@@ -107,4 +107,5 @@ export interface SelectMultipleFormProps<T = unknown> {
   autoLoadService?: boolean;
   textLoading?: string;
   exposeServiceRef?: React.MutableRefObject<(() => Promise<void>) | undefined>;
+  onHide?: (event: string[] | number[] | object[]) => void;
 }

@@ -1,3 +1,5 @@
+import { FilterMatchMode } from "primereact/api";
+import { ColumnFilterMatchModeOptions } from "primereact/column";
 export const ALLOWED_KEYS: string[] = [
   "alwaysShowPaginator",
   "breakpoint",
@@ -45,4 +47,33 @@ export const ALLOWED_KEYS: string[] = [
   "paginatorTemplate",
   "sortOrder",
   "header",
+  "filters",
+  "globalFilterFields",
+];
+
+export const FILTER_MATCH_MODE_OPTIONS: ColumnFilterMatchModeOptions[] = [
+  { label: "Empieza con", value: FilterMatchMode.STARTS_WITH },
+  { label: "Contiene", value: FilterMatchMode.CONTAINS },
+  { label: "No contiene", value: FilterMatchMode.NOT_CONTAINS },
+  { label: "Termina con", value: FilterMatchMode.ENDS_WITH },
+  { label: "Es igual a", value: FilterMatchMode.EQUALS },
+  { label: "Es diferente de", value: FilterMatchMode.NOT_EQUALS },
+  { label: "Está en la lista", value: FilterMatchMode.IN },
+  { label: "No está en la lista", value: FilterMatchMode.NOT_IN },
+  { label: "Es menor que", value: FilterMatchMode.LESS_THAN },
+  {
+    label: "Es menor o igual que",
+    value: FilterMatchMode.LESS_THAN_OR_EQUAL_TO,
+  },
+  { label: "Es mayor que", value: FilterMatchMode.GREATER_THAN },
+  {
+    label: "Es mayor o igual que",
+    value: FilterMatchMode.GREATER_THAN_OR_EQUAL_TO,
+  },
+  { label: "Está entre dos valores", value: FilterMatchMode.BETWEEN },
+  { label: "La fecha es", value: FilterMatchMode.DATE_IS },
+  { label: "La fecha no es", value: FilterMatchMode.DATE_IS_NOT },
+  { label: "La fecha es antes de", value: FilterMatchMode.DATE_BEFORE },
+  { label: "La fecha es después de", value: FilterMatchMode.DATE_AFTER },
+  { label: "Filtro personalizado", value: FilterMatchMode.CUSTOM },
 ];

@@ -38,7 +38,7 @@ const DataTableFormComponent = <D extends DataTableValue>(
     dragSelection: false,
     emptyMessage: EmptyMessageFormComponent,
     filterDelay: 300,
-    filterDisplay: "menu",
+    filterDisplay: "row",
     first: 0,
     frozenRow: false,
     lazy: false,
@@ -212,6 +212,9 @@ const DataTableFormComponent = <D extends DataTableValue>(
         value={data}
         sortField={sort?.field}
         sortOrder={sort?.order}
+        onFilter={(event) => {
+          console.log("Filtros aplicados:", event.filters);
+        }}
       >
         {props.columns.map(ColumnsFormComponent)}
       </DataTable>

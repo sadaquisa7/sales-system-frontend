@@ -29,4 +29,8 @@ export interface InputTextFormProps {
   required?: boolean;
   readOnly?: boolean;
   disabled?: boolean;
+  onEnter?: (
+    value: string,
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => void;
 }

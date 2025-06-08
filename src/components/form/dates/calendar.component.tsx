@@ -1,5 +1,5 @@
 "use client";
-import { useMemo, useState } from "react";
+import { useMemo, useState, SyntheticEvent } from "react";
 import { Calendar } from "primereact/calendar";
 import {
   DateCalendarFormProps,
@@ -7,7 +7,6 @@ import {
 } from "@/interfaces/components/form/dates/calendar.interface";
 import LabelFormComponent from "@/components/form/labels/label.component";
 import MessageSimpleFormComponent from "@/components/form/messages/messageSimple.component";
-import { SyntheticEvent } from "react";
 import { FormEvent, Nullable } from "primereact/ts-helpers";
 import { configureLocale } from "@utils/calendar/localeConfig.utils";
 import {
@@ -77,8 +76,12 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
   );
 
   const convertedValue = useMemo(
-    () => convertToArrayDate(internalValue, props.dateFormatValue ?? ""),
-    [internalValue, props.dateFormatValue]
+    () =>
+      convertToArrayDate(
+        props.value !== undefined ? props.value : internalValue,
+        props.dateFormatValue ?? ""
+      ),
+    [internalValue, props.dateFormatValue, props.value]
   );
 
   const handleChange = (
@@ -95,6 +98,12 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
       props.onChange(convertedNewValue);
     }
     setInternalValue(convertedNewValue);
+  };
+
+  const onHide = () => {
+    if (props.onHide) {
+      props.onHide(internalValue);
+    }
   };
 
   return (
@@ -183,6 +192,7 @@ const DateCalendarFormComponent: React.FC<DateCalendarFormProps> = (
           yearNavigator={props.yearNavigator}
           yearRange={props.yearRange}
           onChange={handleChange}
+          onHide={onHide}
         />
       </div>
       {props.errors && props.errors.length > 0 && (

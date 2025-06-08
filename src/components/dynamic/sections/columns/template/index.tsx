@@ -9,8 +9,7 @@ export const ColumnsTemplateComponent = (
   const { type } = props;
   if (type === "status") {
     return (rowData) => ColumnTemplateStatus(props, rowData);
-  }
-  if (type === "actions") {
+  } else if (type === "actions") {
     return (rowData) => ColumnTemplateActions(props, rowData, actionHandlers);
   }
   return undefined;
