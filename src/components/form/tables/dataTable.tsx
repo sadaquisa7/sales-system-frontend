@@ -6,6 +6,7 @@ import {
   QueryParams,
   SortOption,
   SortQueryParams,
+  FilterQueryParams,
 } from "@interfaces/components/form/tables/dataTable.interface";
 import {
   DataTable,
@@ -22,6 +23,8 @@ import { HeaderFormComponent } from "./header";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 
 import { ALLOWED_KEYS } from "@constants/dataTable.constants";
+
+import { convertToAndFilterObject } from "@/utils/datatable/filters";
 
 const DataTableFormComponent = <D extends DataTableValue>(
   propsCurrent: DataTableFormProps<D>
@@ -82,6 +85,7 @@ const DataTableFormComponent = <D extends DataTableValue>(
   }, [propsCurrent]);
 
   const [data, setData] = useState<D[]>((mergedProps.value as D[]) ?? []);
+  const [filtersAux, setFiltersAux] = useState<FilterQueryParams | null>(null);
   const [loading, setLoading] = useState(
     !!propsCurrent.serviceGetData || propsCurrent.loading
   );
@@ -112,6 +116,9 @@ const DataTableFormComponent = <D extends DataTableValue>(
     };
     if (queryParams?.order !== null) {
       baseParams.order = queryParams?.order ?? mergedProps.params?.order;
+    }
+    if (queryParams?.filters) {
+      baseParams.filters = queryParams?.filters;
     }
     return baseParams;
   };
@@ -204,6 +211,24 @@ const DataTableFormComponent = <D extends DataTableValue>(
       order,
     });
   };
+
+  const onFilter = async (event: DataTableStateEvent) => {
+    const filters = convertToAndFilterObject(event.filters);
+    if (JSON.stringify(filters) === JSON.stringify(filtersAux)) {
+      return;
+    }
+    const order: SortQueryParams | null = {
+      field: sort?.field ?? "",
+      direction: sort?.order === 1 ? "ASC" : "DESC",
+    };
+    setFiltersAux(filters);
+    await fetchData({
+      limit: configPaginator.rows,
+      page: configPaginator.page,
+      filters,
+      order,
+    });
+  };
   return (
     <>
       <DataTable
@@ -212,9 +237,7 @@ const DataTableFormComponent = <D extends DataTableValue>(
         value={data}
         sortField={sort?.field}
         sortOrder={sort?.order}
-        onFilter={(event) => {
-          console.log("Filtros aplicados:", event.filters);
-        }}
+        onFilter={onFilter}
       >
         {props.columns.map(ColumnsFormComponent)}
       </DataTable>

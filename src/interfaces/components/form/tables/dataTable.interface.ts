@@ -29,18 +29,19 @@ export interface SortQueryParams {
   field: string;
   direction: "ASC" | "DESC";
 }
-
-export interface FilterQueryParams {
-  field: string;
+export interface FilterField {
   operator: FilterOperator;
   value: string | number | boolean;
+}
+export interface FilterQueryParams {
+  and: Record<string, FilterField>;
 }
 
 export interface QueryParams {
   limit?: number;
   page?: number;
   order?: SortQueryParams | null;
-  filters?: FilterQueryParams[];
+  filters?: FilterQueryParams;
 }
 
 export interface PaginatorProps {
