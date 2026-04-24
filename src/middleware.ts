@@ -5,11 +5,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { generateUsername } from "@utils/auth/user.utils";
 import { MeResponse } from "@interfaces/services/auth/me.interface";
 import { CookieData } from "@/interfaces/middlewares/middleware.interface";
+import { ENV } from "@/config/env";
 
 export async function middleware(request: NextRequest) {
   const { nextUrl, cookies } = request;
   const { pathname } = nextUrl;
-  const sessionToken = cookies.get("session_token")?.value;
+  const sessionToken = cookies.get(ENV.COOKIE_NAME_SESSION)?.value;
   if (pathname === "/login") {
     const { status, redirect } = await guestMiddleware(pathname, sessionToken);
     if (status) return redirectTo(redirect, request);
@@ -17,7 +18,7 @@ export async function middleware(request: NextRequest) {
   }
   const { status, redirect, data } = await authenticationMiddleware(
     pathname,
-    sessionToken
+    sessionToken,
   );
   if (status) return redirectTo(redirect, request);
 
@@ -49,7 +50,7 @@ const redirectTo = (redirect: string, request: NextRequest): NextResponse => {
 const setResponseCookies = (
   response: NextResponse,
   cookieData: CookieData,
-  cookieOptions: { path: string } = { path: "/" }
+  cookieOptions: { path: string } = { path: "/" },
 ): NextResponse => {
   Object.entries(cookieData).forEach(([key, value]) => {
     response.cookies.set(key, JSON.stringify(value), cookieOptions);

@@ -1,33 +1,73 @@
-import axios from "axios";
-import { createHttpClient } from "./base.lib"; // Asegúrate de que la ruta sea correcta
-import Cookies from "js-cookie"; // Librería para manejar cookies en el cliente
+import axios, { AxiosError } from "axios";
+import { createHttpClient } from "./base.lib";
+import { ENV } from "@/config/env";
 
-// Configuración básica de Axios
 const configApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_SALES, // Usamos variable de entorno
-  timeout: 10000, // Tiempo máximo de espera en milisegundos
+  baseURL: ENV.API_SALES,
+  timeout: 10000,
+  withCredentials: true,
   headers: {
     "Content-Type": "application/json",
   },
 });
 
-// Interceptor para añadir el token desde la cookie antes de cada solicitud
-configApi.interceptors.request.use(
-  (config) => {
-    const NAME_SESSION =
-      process.env.NEXT_PUBLIC_COOKIE_NAME_SESSION || "session_token";
-    const token = Cookies.get(NAME_SESSION); // Nombre de la cookie donde está el token
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`; // Añadimos el token al header
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (value: unknown) => void;
+  reject: (reason: unknown) => void;
+}> = [];
+
+const processQueue = (error: unknown) => {
+  failedQueue.forEach(({ resolve, reject }) => {
+    if (error) {
+      reject(error);
+    } else {
+      resolve(undefined);
     }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
+  });
+  failedQueue = [];
+};
+
+configApi.interceptors.response.use(
+  (response) => response,
+  async (error: AxiosError) => {
+    const originalRequest = error.config as typeof error.config & {
+      _retry?: boolean;
+    };
+
+    const isAuthEndpoint = originalRequest?.url?.includes("/auth/login") ||
+      originalRequest?.url?.includes("/auth/refresh-token");
+
+    if (error.response?.status !== 401 || originalRequest?._retry || isAuthEndpoint) {
+      return Promise.reject(error);
+    }
+
+    if (isRefreshing) {
+      return new Promise((resolve, reject) => {
+        failedQueue.push({ resolve, reject });
+      }).then(() => configApi(originalRequest!))
+        .catch((err) => Promise.reject(err));
+    }
+
+    originalRequest!._retry = true;
+    isRefreshing = true;
+
+    try {
+      await configApi.get("/auth/refresh-token");
+      processQueue(null);
+      return configApi(originalRequest!);
+    } catch (refreshError) {
+      processQueue(refreshError);
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
+      return Promise.reject(refreshError);
+    } finally {
+      isRefreshing = false;
+    }
   }
 );
 
-// Crear el cliente HTTP con la configuración específica
 export const configApiClient = createHttpClient(configApi);
 
 export default configApiClient;
