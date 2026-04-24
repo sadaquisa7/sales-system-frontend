@@ -4,20 +4,12 @@ import { NewForm, FormSchema } from "@validations/login/login.validation";
 import { ConfigForm } from "@configs/forms/login/login.config";
 import { ApiResponse } from "@interfaces/axios/axio.interface";
 import { LoginResponse } from "@/interfaces/services/auth/login.interface";
-import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 
 export default function LoginComponent() {
   const router = useRouter();
-  const NAME_SESSION =
-    process.env.NEXT_PUBLIC_COOKIE_NAME_SESSION || "session_token";
   const onSuccess = (response: ApiResponse<LoginResponse>) => {
-    const { data } = response;
-    if (data && !("items" in data)) {
-      const { access_token, expires_at } = data;
-      Cookies.set(NAME_SESSION, access_token, {
-        expires: new Date(expires_at * 1000),
-      });
+    if (response.status) {
       router.push("/");
     }
   };

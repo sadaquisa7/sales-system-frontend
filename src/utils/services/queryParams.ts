@@ -1,5 +1,5 @@
 export const ConvertParams = (
-  params: Record<string, any> = {} // Default to empty object if undefined
+  params: Record<string, unknown> = {} // Default to empty object if undefined
 ): Record<string, string> =>
   Object.fromEntries(
     Object.entries(params).map(([key, value]) => [

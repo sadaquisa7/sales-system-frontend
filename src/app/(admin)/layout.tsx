@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import TopNav from "@/components/layouts/admin/horizontal/topNav.component";
 import SideMenu from "@/components/layouts/admin/vertical/sideMenu.component";
+import IdleGuard from "@/components/layouts/admin/idleGuard.component";
 import { IsOpenMenuMobileProvider } from "@contexts/menu/isOpenMobile";
 import { AuthProvider } from "@contexts/auth/auth.context";
 import {
@@ -22,15 +23,17 @@ export default async function AdminLayout({
   return (
     <AuthProvider cookieStoreServer={cookieStoreServer}>
       <IsOpenMenuMobileProvider>
-        <TopNav />
-        <div className="flex">
-          <SideMenu />
-          <section className="w-screen overflow-x-hidden">
-            <section className="p-2 lg:p-4 overflow-y-auto h-screen-navbar">
-              {children}
+        <IdleGuard>
+          <TopNav />
+          <div className="flex">
+            <SideMenu />
+            <section className="w-screen overflow-x-hidden">
+              <section className="p-2 lg:p-4 overflow-y-auto h-screen-navbar">
+                {children}
+              </section>
             </section>
-          </section>
-        </div>
+          </div>
+        </IdleGuard>
       </IsOpenMenuMobileProvider>
     </AuthProvider>
   );

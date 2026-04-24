@@ -4,7 +4,6 @@ import MenuListHorizontal from "./list.component";
 import { Avatar } from "primereact/avatar";
 import { menuHorizontal } from "@constants/horizontalMenu.constants";
 import { useIsOpenMenuMobile } from "@contexts/menu/isOpenMobile";
-import Cookies from "js-cookie";
 import { useToast } from "@contexts/toast/toast.context";
 import { useLoading } from "@contexts/loading/loading.context";
 import { useRouter } from "next/navigation";
@@ -17,8 +16,6 @@ export default function TopNav() {
   const { success, error } = useToast();
   const { showLoading, hideLoading } = useLoading();
   const router = useRouter();
-  const NAME_SESSION =
-    process.env.NEXT_PUBLIC_COOKIE_NAME_SESSION || "session_token";
   const { logout, user } = useAuth();
 
   const handleUserClick = async (item: MenuItem) => {
@@ -38,7 +35,6 @@ export default function TopNav() {
       const response: ApiResponse = await authService.logout();
       const { message, status } = response;
       if (status) {
-        Cookies.remove(NAME_SESSION);
         logout();
         success(message);
         router.push("/login");

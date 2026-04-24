@@ -71,6 +71,7 @@ export const createHttpClient = (
       const responseData: ApiResponse<Data> = await response.json();
       return responseData;
     } catch (error) {
+      console.log("error fetch ==>", error);
       return {
         status: false,
         message: (error as Error).message || "Error inesperado",
